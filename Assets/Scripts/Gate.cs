@@ -6,75 +6,43 @@ using DG.Tweening;
 
 public class Gate : MonoBehaviour
 {
-    [SerializeField] private ObjectType objectType;
-    [SerializeField] private int timeLine;
-    [SerializeField] private TMP_Text objectText;
+    [Header("Upgrade Settings")]
+    [SerializeField] private UpgradeType upgradeType;
+    [SerializeField] private int value;
+
+    [Header("Gate Components")]
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private TMP_Text gateValue;
+    [SerializeField] private TMP_Text gateType;
     [SerializeField] private Collider thisTrigger = null;
     [SerializeField] private Collider otherTrigger = null;
-    [SerializeField] private Transform gate;
-
-    private int dateToDay;
-    private int randomTime;
-    private Vector3 swerveVector;
-
-    public enum ObjectType
-    {
-        DebuffGate,
-        BuffGate,
-        RngGate
-    }
 
     private void Start()
     {
-        DOTween.Init();
-        SetTexts();
+        SetGatesInfos();
+    }
+
+    private void SetGatesInfos()
+    {
+        if (value > 0) gateValue.text = "+" + value;
+        if (value < 0) gateValue.text = "" + value;
+        gateType.text = GetUpgradeName(upgradeType);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.transform.parent.TryGetComponent(out PlayerManager playerManager))
         {
-            CloseTriggers();
-
-            if (objectType == ObjectType.BuffGate)
-            {
-                //PlayerManagement.Instance.AddHealth(dateToDay);
-                TurnToGrey();
-            }
-
-            else if (objectType == ObjectType.DebuffGate)
-            {
-                //PlayerManagement.Instance.AddHealth(dateToDay);
-                TurnToGrey();
-            }
-
-            else
-            {
-                //MODELI ACTIRT
-                //PlayerManagement.Instance.OpenSpeacialMouse();
-                TurnToGrey();
-            }
+            //playerManager.InGameUpgrades(upgradeType, value);
+            OnPlayerEnter();
         }
     }
 
-    private void SetTexts()
+    private void OnPlayerEnter()
     {
-        if (objectType == ObjectType.BuffGate)
-        {
-            objectText.text = "+" + timeLine;
-        }
-
-        if (objectType == ObjectType.DebuffGate)
-        {
-            objectText.text = "-" + timeLine;
-        }
-
-        if (objectType == ObjectType.RngGate)
-        {
-            swerveVector = new Vector3(-1.7f, gate.position.y, gate.position.z);
-            gate.DOMove(swerveVector, 2).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
-        }
+        TurnToGrey();
+        CloseTriggers();
+        PlayDoPunch();
     }
 
     private void TurnToGrey()
@@ -88,6 +56,26 @@ public class Gate : MonoBehaviour
         if (otherTrigger != null)
         {
             otherTrigger.enabled = false;
+        }
+    }
+
+    private void PlayDoPunch()
+    {
+        transform.DOPunchScale(Vector3.one * 0.2f, 0.3f);
+    }
+
+    public string GetUpgradeName(UpgradeType type)
+    {
+        switch (type)
+        {
+            case UpgradeType.Income:
+                return ConstantVariables.UpgradeTypes.Income;
+            /*case UpgradeType.Power:
+                return ConstantVariables.UpgradeTypes.Power;
+            case UpgradeType.Size:
+                return ConstantVariables.UpgradeTypes.Size;*/
+            default:
+                return "?";
         }
     }
 }

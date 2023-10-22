@@ -5,7 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class HcLevelManager : MonoSingleton<HcLevelManager>
 {
+    [Header("Level Props")]
     [SerializeField] private GameObject[] levelPrefabs;
+    [SerializeField] private bool forceLevel;
+    [SerializeField] private int forceLevelIndex;
     private GameObject currentLevel;
 
     public int LevelIndex
@@ -17,11 +20,6 @@ public class HcLevelManager : MonoSingleton<HcLevelManager>
 
     public void Init()
     {
-        if (LevelIndex >= levelPrefabs.Length)
-        {
-            LevelIndex = Random.Range(0, levelPrefabs.Length);
-        }
-
         GenerateCurrentLevel();
     }
 
@@ -39,6 +37,19 @@ public class HcLevelManager : MonoSingleton<HcLevelManager>
         {
             Destroy(currentLevel);
         }
+
+        if (forceLevel)
+        {
+            currentLevel = Instantiate(levelPrefabs[forceLevelIndex]);
+            return;
+        }
+
+        if (LevelIndex >= levelPrefabs.Length)
+        {
+            currentLevel = Instantiate(levelPrefabs[Random.Range(0, levelPrefabs.Length)]);
+            return;
+        }
+
         currentLevel = Instantiate(levelPrefabs[LevelIndex]);
     }
 

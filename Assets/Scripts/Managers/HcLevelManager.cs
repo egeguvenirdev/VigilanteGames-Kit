@@ -5,72 +5,57 @@ using UnityEngine.SceneManagement;
 
 public class HcLevelManager : MonoSingleton<HcLevelManager>
 {
-
     [SerializeField] private GameObject[] levelPrefabs;
-    [SerializeField] private int levelIndex = 0;
-    [SerializeField] private bool forceLevel = false;
+    private GameObject currentLevel;
 
-    private int _globalLevelIndex = 0;
-    private bool _inited = false;
-    private GameObject _currentLevel;
+    public int LevelIndex
+    {
+        get => PlayerPrefs.GetInt(ConstantVariables.LevelValue.Level);
+
+        set => PlayerPrefs.SetInt(ConstantVariables.LevelValue.Level, PlayerPrefs.GetInt(ConstantVariables.LevelValue.Level) + value);
+    }
 
     public void Init()
     {
-        if (_inited)
+        if (LevelIndex >= levelPrefabs.Length)
         {
-            return;
-        }
-        _inited = true;
-        _globalLevelIndex = PlayerPrefs.GetInt("HCLevel");
-
-        if (forceLevel)
-        {
-            _globalLevelIndex = levelIndex;
-            return;
-        }
-        levelIndex = _globalLevelIndex;
-
-        if (levelIndex >= levelPrefabs.Length)
-        {
-            levelIndex = Random.Range(0, levelPrefabs.Length);
+            LevelIndex = Random.Range(0, levelPrefabs.Length);
         }
 
         GenerateCurrentLevel();
     }
 
-    public void GenerateCurrentLevel()
+    public void DeInit()
     {
-        if (_currentLevel != null)
+        if (currentLevel != null)
         {
-            Destroy(_currentLevel);
+            Destroy(currentLevel);
         }
-        _currentLevel = Instantiate(levelPrefabs[levelIndex]);
     }
 
-    public GameObject GetCurrentLevel()
+    public void GenerateCurrentLevel()
     {
-        return _currentLevel;
+        if (currentLevel != null)
+        {
+            Destroy(currentLevel);
+        }
+        currentLevel = Instantiate(levelPrefabs[LevelIndex]);
     }
 
     public void LevelUp()
     {
-        if (forceLevel)
+        LevelIndex = 1;
+
+        if (LevelIndex >= levelPrefabs.Length)
         {
-            return;
+            LevelIndex = Random.Range(0, levelPrefabs.Length);
         }
 
-        _globalLevelIndex++;
-        PlayerPrefs.SetInt("HCLevel", _globalLevelIndex);
-        levelIndex = _globalLevelIndex;
-
-        if (levelIndex >= levelPrefabs.Length)
-        {
-            levelIndex = Random.Range(0, levelPrefabs.Length);
-        }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Init();
     }
+
     public int GetGlobalLevelIndex()
     {
-        return _globalLevelIndex;
+        return LevelIndex;
     }
 }

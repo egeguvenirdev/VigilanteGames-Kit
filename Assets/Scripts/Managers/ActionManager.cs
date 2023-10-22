@@ -13,6 +13,9 @@ public static class ActionManager
 
     public static Action<Vector3> ManagerUpdate { get; set; }
 
+    //Player Controls
+    public static Action<float> SwerveValue { get; set; }
+
     public static void ResetAllStaticVariables()
     {
         Type type = typeof(ActionManager);

@@ -41,7 +41,7 @@ public class RunnerScript : MonoBehaviour
 
     public void Init()
     {
-        playerSwerve.OnSwerve += PlayerSwipe_OnSwerve;
+        ActionManager.SwerveValue += PlayerSwipe_OnSwerve;
 
         pathCreator = FindObjectOfType<PathCreator>();
 
@@ -54,7 +54,7 @@ public class RunnerScript : MonoBehaviour
 
     public void DeInit()
     {
-        playerSwerve.OnSwerve -= PlayerSwipe_OnSwerve;
+        ActionManager.SwerveValue -= PlayerSwipe_OnSwerve;
 
         StartToRun(false);
     }
@@ -80,11 +80,11 @@ public class RunnerScript : MonoBehaviour
         }
     }
 
-    private void PlayerSwipe_OnSwerve(Vector2 direction)
+    private void PlayerSwipe_OnSwerve(float direction)
     {
         if (canSwerve)
         {
-            localMoverTarget.localPosition += Vector3.right * direction.x * localTargetswipeSpeed * Time.deltaTime;
+            localMoverTarget.localPosition += Vector3.right * direction * localTargetswipeSpeed * Time.deltaTime;
             ClampLocalPosition();
         }
     }

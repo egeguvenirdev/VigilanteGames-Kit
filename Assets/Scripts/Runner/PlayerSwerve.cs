@@ -1,47 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Lean.Touch;
 
 public class PlayerSwerve : MonoBehaviour
 {
-    [SerializeField] private float _speedMultiplier = 1f;
+    [Header("Controller")]
+    [SerializeField] private float moveSpeed = 1000;
+    [SerializeField] private float dirMultiplier = 100;
 
-    public event System.Action OnSwerveStart;
-    public event System.Action<Vector2> OnSwerve;
-    public event System.Action OnSwerveEnd;
+    private float multiplier = 1;
+    private float dirMaxMagnitude = float.PositiveInfinity;
+    private Vector2 deltaDir;
+    private Vector2 joystickCenterPos;
+    private float lastPos;
 
-    private bool touching;
+    private bool isControl = false;
+    private Vector2 dir;
+    private Vector2 dirOld;
 
-    private void OnEnable()
+    void Update()
     {
-        LeanTouch.OnFingerDown += LeanTouch_OnFingerDown;
-        LeanTouch.OnFingerUpdate += LeanTouch_OnFingerSwerve;
-        LeanTouch.OnFingerUp += LeanTouch_OnFingerUp;
-    }
+        if (Input.GetMouseButtonDown(0))
+        {
+            joystickCenterPos = (Vector2)Input.mousePosition;
+            deltaDir = Vector2.zero;
+            dirOld = Vector2.zero;
+            isControl = true;
+        }
 
-    private void OnDisable()
-    {
-        LeanTouch.OnFingerDown -= LeanTouch_OnFingerDown;
-        LeanTouch.OnFingerUpdate -= LeanTouch_OnFingerSwerve;
-        LeanTouch.OnFingerUp -= LeanTouch_OnFingerUp;
-    }
+        if (Input.GetMouseButtonUp(0))
+        {
+            joystickCenterPos = (Vector2)Input.mousePosition;
+            deltaDir = Vector2.zero;
+            dirOld = Vector2.zero;
+            isControl = false;
+        }
 
-    private void LeanTouch_OnFingerDown(LeanFinger obj)
-    {
-        OnSwerveStart?.Invoke();
-        touching = true;
-    }
-
-    private void LeanTouch_OnFingerSwerve(LeanFinger finger)
-    {
-        if (!touching) return;
-        OnSwerve?.Invoke(finger.ScaledDelta * _speedMultiplier);
-    }
-
-    private void LeanTouch_OnFingerUp(LeanFinger obj)
-    {
-        OnSwerveEnd?.Invoke();
-        touching = false;
+        if (isControl)
+        {
+            multiplier = dirMultiplier / Screen.width;
+            dir = ((Vector2)Input.mousePosition - joystickCenterPos) * multiplier;
+            float m = dir.magnitude;
+            if (m > dirMaxMagnitude) dir = dir * dirMaxMagnitude / m;
+            deltaDir = dir - dirOld;
+            dirOld = dir;
+            //lastPos += (deltaDir.x * moveSpeed * Time.deltaTime);
+            ActionManager.SwerveValue?.Invoke(deltaDir.x * moveSpeed * Time.deltaTime);
+        }
     }
 }

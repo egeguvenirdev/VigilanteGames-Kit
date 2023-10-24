@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NextLevelButton : ButtonBase
 {
+    [SerializeField] private GameObject panelElements;
     private GameManager gameManager;
 
     public override void Init()
@@ -21,7 +22,7 @@ public class NextLevelButton : ButtonBase
     {
         if (check)
         {
-            gameObject.SetActive(true);
+            panelElements.SetActive(true);
         }
     }
 

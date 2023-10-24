@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class RestartLevelButton : ButtonBase
 {
+    [SerializeField] private GameObject panelElements;
     private GameManager gameManager;
 
     public override void Init()
@@ -22,7 +23,7 @@ public class RestartLevelButton : ButtonBase
     {
         if (!check)
         {
-            gameObject.SetActive(true);
+            panelElements.SetActive(true);
         }
     }
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayButton : ButtonBase
 {
+    [SerializeField] private GameObject panelElements;
+    [SerializeField] private GameObject upgradePanel;
     private GameManager gameManager;
 
     public override void Init()
@@ -18,6 +20,11 @@ public class PlayButton : ButtonBase
 
     public override void OnButtonClick()
     {
+        if (upgradePanel != null)
+        {
+            upgradePanel.SetActive(true);
+            return;
+        }
         base.OnButtonClick();
         gameManager.OnStartTheGame();
         gameObject.SetActive(false);

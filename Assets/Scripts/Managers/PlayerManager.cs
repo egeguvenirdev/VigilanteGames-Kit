@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class PlayerManager : MonoSingleton<PlayerManager>
+public class PlayerManager : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private RunnerScript runnerScript;

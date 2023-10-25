@@ -40,7 +40,7 @@ public class EnemyBase : MonoBehaviour
 
     protected void Initialized()
     {
-        playerManager = PlayerManager.Instance;
+        playerManager = FindObjectOfType<PlayerManager>();
         //SetProperties(playerManager.PlayerLevel);
 
         ActionManager.ManagerUpdate += MoveTowardsPlayer;

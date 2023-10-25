@@ -6,13 +6,13 @@ using System;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-    public static event Action<bool> GameOver;
-
     [Header("PlayerPrefs")]
     [SerializeField] private bool clearPlayerPrefs;
 
     private PlayerManager playerManager;
-    private HcLevelManager hcLevelManager;
+    private LevelManager levelManager;
+    private UpdateManager updateManager;
+    private CamManager camManager;
     private MoneyManager moneyManager;
     private UIManager uIManager;
 
@@ -23,8 +23,8 @@ public class GameManager : MonoSingleton<GameManager>
 
     private void SetInits()
     {
-        hcLevelManager = HcLevelManager.Instance;
-        hcLevelManager.Init();
+        levelManager = LevelManager.Instance;
+        levelManager.Init();
 
         moneyManager = MoneyManager.Instance;
         moneyManager.Init(clearPlayerPrefs);
@@ -32,23 +32,39 @@ public class GameManager : MonoSingleton<GameManager>
         uIManager = UIManager.Instance;
         uIManager.Init();
 
-        playerManager = PlayerManager.Instance;
+        updateManager = FindObjectOfType<UpdateManager>();
+        updateManager.Init();
+
+        camManager = FindObjectOfType<CamManager>();
+        camManager.Init();
+    }
+
+    private void DeInits()
+    {
+        levelManager.DeInit();
+        uIManager.DeInit();
+        updateManager.DeInit();
+        playerManager.DeInit();
+        camManager.DeInit();
     }
 
     public void OnStartTheGame()
     {
+        playerManager = FindObjectOfType<PlayerManager>();
         playerManager.Init();
     }
 
     public void OnLevelSucceed()
     {
-        hcLevelManager.LevelUp();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        levelManager.LevelUp();
+        DeInits();
+        SetInits();
     }
 
     public void OnLevelFailed()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        DeInits();
+        SetInits();
     }
 
     public void FinishTheGame(bool check)

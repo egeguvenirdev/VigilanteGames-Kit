@@ -12,7 +12,6 @@ public class RunnerScript : MonoBehaviour
     [SerializeField] private PathCreator pathCreator;
     [SerializeField] private SimpleAnimancer animancer;
     [SerializeField] private PlayerSwerve playerSwerve;
-    [SerializeField] private PathManager pathManager;
 
     [Header("Path Settings")]
     [SerializeField] private float distance = 0;
@@ -48,7 +47,7 @@ public class RunnerScript : MonoBehaviour
         pathCreator = FindObjectOfType<PathCreator>();
 
         distance = startDistance;
-        oldPosition = localMoverTarget.localPosition;
+        //oldPosition = localMoverTarget.localPosition;
 
         //PlayAnimation(runAnim);
         StartToRun(true);
@@ -98,8 +97,16 @@ public class RunnerScript : MonoBehaviour
 
     void FollowLocalMoverTarget(float deltaTime)
     {
+        /*//pathrunner
+        distance += runSpeed * deltaTime;
+        localMoverTarget.position = pathCreator.path.GetPointAtDistance(distance);
+        localMoverTarget.eulerAngles = pathCreator.path.GetRotationAtDistance(distance).eulerAngles + new Vector3(0f, 0f, 90f);*/
+
+        //classic forward runner
         if (canRun) localMoverTarget.Translate(transform.forward * deltaTime * runSpeed);
 
+
+        //follower character
         if (!canFollow)
         {
             Vector3 direction = localMoverTarget.localPosition - oldPosition;
@@ -143,11 +150,5 @@ public class RunnerScript : MonoBehaviour
         animancer.PlayAnimation(anim);
         animancer.SetStateSpeed(speed);
         currentAnim = anim;
-    }
-
-    public void SwitchPathLine()
-    {
-        pathCreator = pathManager.ReturnCurrenntRoad();
-        distance = 0;
     }
 }

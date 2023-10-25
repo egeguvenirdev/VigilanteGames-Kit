@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class HcLevelManager : MonoSingleton<HcLevelManager>
+public class LevelManager : MonoSingleton<LevelManager>
 {
     [Header("Level Props")]
     [SerializeField] private GameObject[] levelPrefabs;
@@ -63,10 +63,5 @@ public class HcLevelManager : MonoSingleton<HcLevelManager>
         }
 
         Init();
-    }
-
-    public int GetGlobalLevelIndex()
-    {
-        return LevelIndex;
     }
 }

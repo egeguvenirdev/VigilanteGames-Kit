@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class CamFollower : MonoBehaviour
+public class CamManager : MonoBehaviour
 {
     [Header("Cam Follow Settings")]
     [SerializeField] private Vector3 followOffset;
@@ -14,11 +14,16 @@ public class CamFollower : MonoBehaviour
 
     public void Init()
     {
-        DOTween.Init();
-        player = PlayerManager.Instance.GetCharacterTransform;
+        ActionManager.UpdateManager += OnUpdate;
+        player = FindObjectOfType<PlayerManager>().GetCharacterTransform;
     }
 
-    void Update()
+    public void DeInit()
+    {
+        ActionManager.UpdateManager -= OnUpdate;
+    }
+
+    void OnUpdate(float deltaTime)
     {
         if (player != null)
         {

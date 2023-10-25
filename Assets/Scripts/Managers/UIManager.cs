@@ -19,7 +19,7 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private Image progressBarImage;
 
     private GameManager gameManager;
-    private HcLevelManager levelManager;
+    private LevelManager levelManager;
 
     private float smoothMoneyNumbers = 0;
     private Tweener smoothTween;
@@ -27,7 +27,7 @@ public class UIManager : MonoSingleton<UIManager>
     public void Init()
     {
         gameManager = GameManager.Instance;
-        levelManager = HcLevelManager.Instance;
+        levelManager = LevelManager.Instance;
         DOTween.Init();
         LevelText();
 
@@ -52,7 +52,7 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void LevelText()
     {
-        int levelInt = levelManager.GetGlobalLevelIndex() + 1;
+        int levelInt = levelManager.LevelIndex + 1;
         currentLV.text = "Level " + levelInt;
     }
 

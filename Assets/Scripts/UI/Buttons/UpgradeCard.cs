@@ -5,37 +5,30 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class UpgradeCard : ButtonBase
+public abstract class UpgradeCard : ButtonBase
 {
     [Header("Button Settings")]
-    [SerializeField] private UpgradeType upgradeType;
-    [SerializeField] private string buttonName;
-    [SerializeField] private Button button;
-    [SerializeField] private Color32 white;
-    [SerializeField] private Color32 red;
+    [SerializeField] protected UpgradeType upgradeType;
+    [SerializeField] protected Button button;
+    [SerializeField] protected Color32 white;
+    [SerializeField] protected Color32 red;
 
     [Header("Button Prices")]
-    [SerializeField] private int startPrice;
-    [SerializeField] private int incrementalBasePrice;
-    private int priceIncrementalValue;
-
-    private int currentPrice;
-    private int skillLevel;
+    [SerializeField] protected int startPrice;
+    [SerializeField] protected int incrementalBasePrice;
+    protected int priceIncrementalValue;
 
     [Header("Button Upgrade Values")]
-    [SerializeField] private float upgradeValue;
-    [SerializeField] private float upgradeBaseIncrementalValue;
-    private float upgradeIncrementalValue;
-
-    private int upgradeCurrentValue;
+    [SerializeField] protected float upgradeValue;
+    [SerializeField] protected float upgradeBaseIncrementalValue;
+    protected float upgradeIncrementalValue;
 
     [Header("Panel Settings")]
-    [SerializeField] private TMP_Text levelText;
-    [SerializeField] private TMP_Text priceText;
+    [SerializeField] protected TMP_Text levelText;
+    [SerializeField] protected TMP_Text priceText;
 
     private UIManager uiManager;
     private GameManager gameManager;
-    private VibrationManager vibration;
     private PlayerManager playerManager;
     private int level;
 
@@ -43,8 +36,7 @@ public class UpgradeCard : ButtonBase
     {
         uiManager = UIManager.Instance;
         gameManager = GameManager.Instance;
-        vibration = VibrationManager.Instance;
-        playerManager = PlayerManager.Instance;
+        playerManager = FindObjectOfType<PlayerManager>();
         SetButtonText();
         SetButtonApperence();
         ApplyUpgrades();
@@ -63,22 +55,18 @@ public class UpgradeCard : ButtonBase
 
     public override void OnButtonClick()
     {
-        vibration.SelectionVibration();
+        //GameManager.Haptic(0);
 
+        playerManager.OnUpgrade(upgradeType, UpgradeCurrentValue);
         gameManager.Money = -CurrentPrice;
         SkillLevel = 1;
-        SetButtons();
-        playerManager.OnUpgrade(upgradeType, UpgradeCurrentValue);
 
         transform.DOKill(true);
         transform.DOScale(Vector3.one, 0);
         button.enabled = false;
-
+        SetButtons();
         uiManager.UpgradeButtons();
-        transform.DOPunchScale(Vector3.one * 0.3f, 0.5f, 6).SetUpdate(true).OnComplete(() =>
-        {
-
-        });
+        transform.DOPunchScale(Vector3.one * 0.3f, 0.5f, 6).SetUpdate(true);
     }
 
     public void SetButtons()
@@ -87,20 +75,20 @@ public class UpgradeCard : ButtonBase
         SetUpgrades();
     }
 
-    private void SetButtonPrice()
+    protected void SetButtonPrice()
     {
-        CurrentPrice = startPrice + incrementalBasePrice * (SkillLevel - 1);
-        //CurrentPrice = startPrice + IncrementalPrice;
-        //IncrementalPrice = IncrementalPrice;
+        //CurrentPrice = startPrice + incrementalBasePrice * (SkillLevel - 1);
+        CurrentPrice = startPrice + IncrementalPrice;
+        IncrementalPrice = IncrementalPrice;
     }
 
-    private void SetUpgrades()
+    protected void SetUpgrades()
     {
         UpgradeIncrementalValue = upgradeBaseIncrementalValue * (SkillLevel - 1);
         UpgradeCurrentValue = upgradeValue + UpgradeIncrementalValue;
     }
 
-    private void SetButtonApperence()
+    protected void SetButtonApperence()
     {
         if (gameManager == null) gameManager = GameManager.Instance;
 
@@ -116,66 +104,56 @@ public class UpgradeCard : ButtonBase
         }
     }
 
-    private void SetButtonText()
+    protected void SetButtonText()
     {
         if (uiManager == null) uiManager = UIManager.Instance;
-        levelText.text = SkillLevel + " Lv";
+        levelText.text = SkillLevel + ConstantVariables.LevelStats.Lv;
         priceText.text = "" + uiManager.FormatFloatToReadableString(CurrentPrice);
-        if (level == 0)
-        {
-
-            if (UpgradeCurrentValue == 0)
-            {
-                //upgradeStats.text = 0 + " -> " + upgradeValue;
-                return;
-            }
-
-            //upgradeStats.text = uiManager.FormatFloatToReadableString(UpgradeCurrentValue) +
-            //" -> " + uiManager.FormatFloatToReadableString(UpgradeCurrentValue + UpgradeIncrementalValue);
-        }
     }
 
-    public void ApplyUpgrades()
+    protected virtual void ApplyUpgrades()
     {
         playerManager.OnUpgrade(upgradeType, UpgradeCurrentValue);
     }
 
-    public int SkillLevel
+    protected virtual int SkillLevel
     {
-        get => PlayerPrefs.GetInt(buttonName + "skillLevel", 1);
-        set => PlayerPrefs.SetInt(buttonName + "skillLevel", PlayerPrefs.GetInt(buttonName + "skillLevel", 1) + value);
+        get => PlayerPrefs.GetInt(upgradeType.ToString() + ConstantVariables.LevelStats.SkillLevel, 1);
+        set => PlayerPrefs.SetInt(upgradeType.ToString() + ConstantVariables.LevelStats.SkillLevel, PlayerPrefs.GetInt(upgradeType.ToString()
+            + ConstantVariables.LevelStats.SkillLevel, 1) + value);
     }
 
-    public int CurrentPrice
+    protected virtual int CurrentPrice
     {
-        get => PlayerPrefs.GetInt(buttonName + "currentPrice", startPrice);
-        set => PlayerPrefs.SetInt(buttonName + "currentPrice", value);
+        get => PlayerPrefs.GetInt(upgradeType.ToString() + ConstantVariables.UpgradePrices.CurrentPrice, startPrice);
+        set => PlayerPrefs.SetInt(upgradeType.ToString() + ConstantVariables.UpgradePrices.CurrentPrice, value);
     }
 
-    public int IncrementalPrice
+    protected virtual int IncrementalPrice
     {
-        get => PlayerPrefs.GetInt(buttonName + "incrementalPrice", priceIncrementalValue);
-        set => PlayerPrefs.SetInt(buttonName + "incrementalPrice", PlayerPrefs.GetInt(buttonName + "incrementalPrice", 0) + value);
+        get => PlayerPrefs.GetInt(upgradeType.ToString() + ConstantVariables.UpgradePrices.IncrementalPrice, incrementalBasePrice);
+        set => PlayerPrefs.SetInt(upgradeType.ToString() + ConstantVariables.UpgradePrices.IncrementalPrice, PlayerPrefs.GetInt(upgradeType.ToString()
+            + ConstantVariables.UpgradePrices.IncrementalPrice, 0) + value);
     }
 
-    public float UpgradeCurrentValue
+    protected virtual float UpgradeCurrentValue
     {
-        get => PlayerPrefs.GetFloat(buttonName + "upgradeCurrentValue", upgradeValue);
-        set => PlayerPrefs.SetFloat(buttonName + "upgradeCurrentValue", value);
+        get => PlayerPrefs.GetFloat(upgradeType.ToString() + ConstantVariables.UpgradeValues.UpgradeCurrentValue, upgradeValue);
+        set => PlayerPrefs.SetFloat(upgradeType.ToString() + ConstantVariables.UpgradeValues.UpgradeCurrentValue, value);
     }
 
-    public float UpgradeIncrementalValue
+    protected virtual float UpgradeIncrementalValue
     {
-        get => PlayerPrefs.GetFloat(buttonName + "upgradeIncrementalValue", upgradeIncrementalValue);
-        set => PlayerPrefs.SetFloat(buttonName + "upgradeIncrementalValue", value);
+        get => PlayerPrefs.GetFloat(upgradeType.ToString() + ConstantVariables.UpgradeValues.UpgradeIncrementalValue, upgradeIncrementalValue);
+        set => PlayerPrefs.SetFloat(upgradeType.ToString() + ConstantVariables.UpgradeValues.UpgradeIncrementalValue, value);
     }
 
-    public void ClearPlayerPrefs()
+    protected virtual void ClearPlayerPrefs()
     {
-        PlayerPrefs.DeleteKey(buttonName + "skillLevel");
-        PlayerPrefs.DeleteKey(buttonName + "currentPrice");
-        PlayerPrefs.DeleteKey(buttonName + "incrementalPrice");
-        PlayerPrefs.DeleteKey(buttonName + "upgradeCurrentValue");
-        PlayerPrefs.DeleteKey(buttonName + "upgradeIncrementalValue");
+        PlayerPrefs.DeleteKey(upgradeType.ToString() + ConstantVariables.LevelStats.SkillLevel);
+        PlayerPrefs.DeleteKey(upgradeType.ToString() + ConstantVariables.UpgradePrices.CurrentPrice);
+        PlayerPrefs.DeleteKey(upgradeType.ToString() + ConstantVariables.UpgradePrices.IncrementalPrice);
+        PlayerPrefs.DeleteKey(upgradeType.ToString() + ConstantVariables.UpgradeValues.UpgradeCurrentValue);
+        PlayerPrefs.DeleteKey(upgradeType.ToString() + ConstantVariables.UpgradeValues.UpgradeIncrementalValue);
     }
 }

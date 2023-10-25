@@ -35,8 +35,8 @@ public static class ConstantVariables
     public static class UpgradeTypes
     {
         public const string Income = nameof(Income);
-        public const string Power = nameof(Power);
-        public const string Size = nameof(Size);
+        public const string FireRate = nameof(FireRate);
+        public const string FireRange = nameof(FireRange);
     }
 
     public static class BuyBallButton

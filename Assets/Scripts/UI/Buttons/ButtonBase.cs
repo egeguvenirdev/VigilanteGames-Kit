@@ -8,8 +8,5 @@ public abstract class ButtonBase : MonoBehaviour
 
     public abstract void DeInit();
 
-    public virtual void OnButtonClick()
-    {
-
-    }
+    public abstract void OnButtonClick();
 }

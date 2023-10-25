@@ -44,5 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f654dcec1d9ab64091f4109bca8cb37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearPlayerPrefs: 0
-  addMoney: 0
+  clearPlayerPrefs: 1

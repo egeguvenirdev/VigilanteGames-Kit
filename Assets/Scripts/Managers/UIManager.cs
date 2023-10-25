@@ -9,7 +9,7 @@ public class UIManager : MonoSingleton<UIManager>
 {
     [Header("Panels")]
     [SerializeField] private List<ButtonBase> panels = new List<ButtonBase>();
-    [SerializeField] private UpgradeCard[] buttons;
+    [SerializeField] private UpgradeCard[] upgradeButtons;
 
     [Header("Level & Money")]
     [SerializeField] private TMP_Text currentLV;
@@ -18,7 +18,6 @@ public class UIManager : MonoSingleton<UIManager>
     [Header("Health & Xp Bars")]
     [SerializeField] private Image progressBarImage;
 
-    private GameManager gameManager;
     private LevelManager levelManager;
 
     private float smoothMoneyNumbers = 0;
@@ -26,14 +25,13 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void Init()
     {
-        gameManager = GameManager.Instance;
         levelManager = LevelManager.Instance;
-        DOTween.Init();
+
         LevelText();
 
-        for (int i = 0; i < buttons.Length; i++)
+        for (int i = 0; i < upgradeButtons.Length; i++)
         {
-            buttons[i].Init();
+            upgradeButtons[i].Init();
         }
 
         for (int i = 0; i < panels.Count; i++)
@@ -44,7 +42,7 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void DeInit()
     {
-        for (int i = 0; i < buttons.Length; i++)
+        for (int i = 0; i < upgradeButtons.Length; i++)
         {
             panels[i].DeInit();
         }
@@ -63,9 +61,9 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void UpgradeButtons()
     {
-        for (int i = 0; i < buttons.Length; i++)
+        for (int i = 0; i < upgradeButtons.Length; i++)
         {
-            buttons[i].OnPurchase();
+            upgradeButtons[i].OnPurchase();
         }
     }
 

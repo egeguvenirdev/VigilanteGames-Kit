@@ -10,17 +10,17 @@ public abstract class UpgradeCard : ButtonBase
     [Header("Button Settings")]
     [SerializeField] protected UpgradeType upgradeType;
     [SerializeField] protected Button button;
-    [SerializeField] protected Color32 white;
-    [SerializeField] protected Color32 red;
+    [SerializeField] protected Color32 white = Color.white;
+    [SerializeField] protected Color32 red = Color.red;
 
     [Header("Button Prices")]
-    [SerializeField] protected int startPrice;
-    [SerializeField] protected int incrementalBasePrice;
+    [SerializeField] protected int startPrice = 100;
+    [SerializeField] protected int incrementalBasePrice = 10;
     protected int priceIncrementalValue;
 
     [Header("Button Upgrade Values")]
-    [SerializeField] protected float upgradeValue;
-    [SerializeField] protected float upgradeBaseIncrementalValue;
+    [SerializeField] protected float upgradeValue = 1f;
+    [SerializeField] protected float upgradeBaseIncrementalValue = 0.1f;
     protected float upgradeIncrementalValue;
 
     [Header("Panel Settings")]
@@ -31,7 +31,6 @@ public abstract class UpgradeCard : ButtonBase
     private GameManager gameManager;
     private PlayerManager playerManager;
     private VibrationManager vibrationManager;
-    private int level;
 
     public override void Init()
     {
@@ -114,44 +113,44 @@ public abstract class UpgradeCard : ButtonBase
         priceText.text = "" + uiManager.FormatFloatToReadableString(CurrentPrice);
     }
 
-    protected virtual void ApplyUpgrades()
+    protected void ApplyUpgrades()
     {
         playerManager.OnUpgrade(upgradeType, UpgradeCurrentValue);
     }
 
-    protected virtual int SkillLevel
+    protected int SkillLevel
     {
         get => PlayerPrefs.GetInt(upgradeType.ToString() + ConstantVariables.LevelStats.SkillLevel, 1);
         set => PlayerPrefs.SetInt(upgradeType.ToString() + ConstantVariables.LevelStats.SkillLevel, PlayerPrefs.GetInt(upgradeType.ToString()
             + ConstantVariables.LevelStats.SkillLevel, 1) + value);
     }
 
-    protected virtual int CurrentPrice
+    protected int CurrentPrice
     {
         get => PlayerPrefs.GetInt(upgradeType.ToString() + ConstantVariables.UpgradePrices.CurrentPrice, startPrice);
         set => PlayerPrefs.SetInt(upgradeType.ToString() + ConstantVariables.UpgradePrices.CurrentPrice, value);
     }
 
-    protected virtual int IncrementalPrice
+    protected int IncrementalPrice
     {
         get => PlayerPrefs.GetInt(upgradeType.ToString() + ConstantVariables.UpgradePrices.IncrementalPrice, incrementalBasePrice);
         set => PlayerPrefs.SetInt(upgradeType.ToString() + ConstantVariables.UpgradePrices.IncrementalPrice, PlayerPrefs.GetInt(upgradeType.ToString()
             + ConstantVariables.UpgradePrices.IncrementalPrice, 0) + value);
     }
 
-    protected virtual float UpgradeCurrentValue
+    protected float UpgradeCurrentValue
     {
         get => PlayerPrefs.GetFloat(upgradeType.ToString() + ConstantVariables.UpgradeValues.UpgradeCurrentValue, upgradeValue);
         set => PlayerPrefs.SetFloat(upgradeType.ToString() + ConstantVariables.UpgradeValues.UpgradeCurrentValue, value);
     }
 
-    protected virtual float UpgradeIncrementalValue
+    protected float UpgradeIncrementalValue
     {
         get => PlayerPrefs.GetFloat(upgradeType.ToString() + ConstantVariables.UpgradeValues.UpgradeIncrementalValue, upgradeIncrementalValue);
         set => PlayerPrefs.SetFloat(upgradeType.ToString() + ConstantVariables.UpgradeValues.UpgradeIncrementalValue, value);
     }
 
-    protected virtual void ClearPlayerPrefs()
+    protected void ClearPlayerPrefs()
     {
         PlayerPrefs.DeleteKey(upgradeType.ToString() + ConstantVariables.LevelStats.SkillLevel);
         PlayerPrefs.DeleteKey(upgradeType.ToString() + ConstantVariables.UpgradePrices.CurrentPrice);

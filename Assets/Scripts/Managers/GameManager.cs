@@ -15,6 +15,7 @@ public class GameManager : MonoSingleton<GameManager>
     private CamManager camManager;
     private MoneyManager moneyManager;
     private UIManager uIManager;
+    private BandRotator bandRotator;
 
     void Start()
     {
@@ -37,6 +38,9 @@ public class GameManager : MonoSingleton<GameManager>
 
         camManager = FindObjectOfType<CamManager>();
         camManager.Init();
+
+        bandRotator = FindObjectOfType<BandRotator>();
+        bandRotator.Init();
     }
 
     private void DeInits()
@@ -46,6 +50,7 @@ public class GameManager : MonoSingleton<GameManager>
         updateManager.DeInit();
         playerManager.DeInit();
         camManager.DeInit();
+        bandRotator.DeInit();
     }
 
     public void OnStartTheGame()

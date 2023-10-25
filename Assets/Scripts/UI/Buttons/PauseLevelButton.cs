@@ -16,7 +16,6 @@ public class PauseLevelButton : ButtonBase
 
     public override void OnButtonClick()
     {
-        base.OnButtonClick();
         gameObject.SetActive(false);
     }
 }

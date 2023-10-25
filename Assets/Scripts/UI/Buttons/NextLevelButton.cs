@@ -28,7 +28,6 @@ public class NextLevelButton : ButtonBase
 
     public override void OnButtonClick()
     {
-        base.OnButtonClick();
         gameManager.OnLevelSucceed();
         gameObject.SetActive(false);
     }

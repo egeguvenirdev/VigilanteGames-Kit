@@ -23,7 +23,7 @@ public class CamManager : MonoBehaviour
         ActionManager.UpdateManager -= OnUpdate;
     }
 
-    void OnUpdate(float deltaTime)
+    private void OnUpdate(float deltaTime)
     {
         if (player != null)
         {

@@ -43,6 +43,7 @@ public class RunnerScript : MonoBehaviour
     public void Init()
     {
         ActionManager.SwerveValue += PlayerSwipe_OnSwerve;
+        ActionManager.UpdateManager += OnUpdate;
 
         pathCreator = FindObjectOfType<PathCreator>();
 
@@ -56,14 +57,14 @@ public class RunnerScript : MonoBehaviour
     public void DeInit()
     {
         ActionManager.SwerveValue -= PlayerSwipe_OnSwerve;
-
+        ActionManager.UpdateManager -= OnUpdate;
         StartToRun(false);
     }
 
-    void Update()
+    private void OnUpdate(float deltaTime)
     {
         //UpdatePath();
-        FollowLocalMoverTarget();
+        FollowLocalMoverTarget(deltaTime);
         oldPosition = model.localPosition;
     }
 
@@ -95,21 +96,21 @@ public class RunnerScript : MonoBehaviour
         localMoverTarget.localPosition = pos;
     }
 
-    void FollowLocalMoverTarget()
+    void FollowLocalMoverTarget(float deltaTime)
     {
-        if (canRun) localMoverTarget.Translate(transform.forward * Time.deltaTime * runSpeed);
+        if (canRun) localMoverTarget.Translate(transform.forward * deltaTime * runSpeed);
 
         if (!canFollow)
         {
             Vector3 direction = localMoverTarget.localPosition - oldPosition;
-            model.transform.forward = Vector3.Lerp(model.transform.forward, direction, characterRotateLerpSpeed * Time.deltaTime);
+            model.transform.forward = Vector3.Lerp(model.transform.forward, direction, characterRotateLerpSpeed * deltaTime);
         }
 
         if (canLookAt)
         {
             //swipe the object
             Vector3 nextPos = new Vector3(localMoverTarget.localPosition.x, model.localPosition.y, localMoverTarget.localPosition.z); ;
-            model.localPosition = Vector3.Lerp(model.localPosition, nextPos, characterSwipeLerpSpeed * Time.deltaTime);
+            model.localPosition = Vector3.Lerp(model.localPosition, nextPos, characterSwipeLerpSpeed * deltaTime);
         }
     }
 

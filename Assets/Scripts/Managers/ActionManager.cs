@@ -11,7 +11,14 @@ public static class ActionManager
 
     public static Action<bool> GameEnd { get; set; }
 
+    public static Action<float> UpdateManager { get; set; }
+
     public static Action<Vector3> ManagerUpdate { get; set; }
+
+    //MoneyActions
+    public static Action<float> UpdateMoney { get; set; }
+
+    public static Predicate<float> CheckMoneyAmount { get; set; }
 
     //Player Controls
     public static Action<float> SwerveValue { get; set; }

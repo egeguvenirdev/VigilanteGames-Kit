@@ -8,7 +8,6 @@ public class RunnerScript : MonoBehaviour
 {
     [Header("Scripts and Transforms")]
     [SerializeField] private Transform model;
-    [SerializeField] private Transform submodel;
     [SerializeField] private Transform localMoverTarget;
     [SerializeField] private PathCreator pathCreator;
     [SerializeField] private SimpleAnimancer animancer;
@@ -20,19 +19,21 @@ public class RunnerScript : MonoBehaviour
     [SerializeField] private float startDistance = 0;
     [SerializeField] private float clampLocalX = 2f;
 
-
     [Header("Run Settings")]
     [SerializeField] private float runSpeed = 2;
-    [SerializeField] private float localTargetswipeSpeed = 2f;
-    [SerializeField] private float swipeLerpSpeed = 2f;
-    [SerializeField] private float swipeRotateLerpSpeed = 2f;
+    [SerializeField] private float localTargetSwipeSpeed = 2f;
+    [SerializeField] private float characterSwipeLerpSpeed = 2f;
+    [SerializeField] private float characterRotateLerpSpeed = 2f;
+
+    [Header("Animations")]
+    [SerializeField] private AnimationClip runAnim;
+    private AnimationClip currentAnim;
 
     private Vector3 oldPosition;
     private bool canRun = false;
     private bool canSwerve = false;
     private bool canFollow = true;
-    private bool moveEnabled = false;
-    private string currentAnimName = "Idle";
+    private bool canLookAt = true;
 
     public float RunSpeed
     {
@@ -48,7 +49,7 @@ public class RunnerScript : MonoBehaviour
         distance = startDistance;
         oldPosition = localMoverTarget.localPosition;
 
-        //PlayAnimation("Run");
+        //PlayAnimation(runAnim);
         StartToRun(true);
     }
 
@@ -82,11 +83,9 @@ public class RunnerScript : MonoBehaviour
 
     private void PlayerSwipe_OnSwerve(float direction)
     {
-        if (canSwerve)
-        {
-            localMoverTarget.localPosition += Vector3.right * direction * localTargetswipeSpeed * Time.deltaTime;
-            ClampLocalPosition();
-        }
+        if (!canSwerve) return;
+        localMoverTarget.localPosition += Vector3.right * direction * localTargetSwipeSpeed * Time.deltaTime;
+        ClampLocalPosition();
     }
 
     void ClampLocalPosition()
@@ -98,16 +97,19 @@ public class RunnerScript : MonoBehaviour
 
     void FollowLocalMoverTarget()
     {
-        if (canRun && canFollow)
+        if (canRun) localMoverTarget.Translate(transform.forward * Time.deltaTime * runSpeed);
+
+        if (!canFollow)
         {
-            localMoverTarget.Translate(transform.forward * Time.deltaTime * runSpeed);
-
             Vector3 direction = localMoverTarget.localPosition - oldPosition;
-            model.transform.forward = Vector3.Lerp(model.transform.forward, direction, swipeRotateLerpSpeed * Time.deltaTime);
+            model.transform.forward = Vector3.Lerp(model.transform.forward, direction, characterRotateLerpSpeed * Time.deltaTime);
+        }
 
+        if (canLookAt)
+        {
             //swipe the object
             Vector3 nextPos = new Vector3(localMoverTarget.localPosition.x, model.localPosition.y, localMoverTarget.localPosition.z); ;
-            model.localPosition = Vector3.Lerp(model.localPosition, nextPos, swipeLerpSpeed * Time.deltaTime);
+            model.localPosition = Vector3.Lerp(model.localPosition, nextPos, characterSwipeLerpSpeed * Time.deltaTime);
         }
     }
 
@@ -120,40 +122,31 @@ public class RunnerScript : MonoBehaviour
     {
         canSwerve = false;
         canRun = false;
-        PlayAnimation("Knock", 1);
+        //PlayAnimation();
 
         yield return new WaitForSeconds(0.633f);
 
-        PlayAnimation("Run", 1);
+        //PlayAnimation();
         canRun = true;
         canSwerve = true;
     }
 
-    public void PlayAnimation(string animName)
+    public void PlayAnimation(AnimationClip anim)
     {
-        animancer.PlayAnimation(animName);
-        currentAnimName = animName;
+        animancer.PlayAnimation(anim);
+        currentAnim = anim;
     }
 
-    public void PlayAnimation(string animName, float speed)
+    public void PlayAnimationWithSpeed(AnimationClip anim, float speed)
     {
-        animancer.PlayAnimation(animName);
+        animancer.PlayAnimation(anim);
         animancer.SetStateSpeed(speed);
-        currentAnimName = animName;
+        currentAnim = anim;
     }
 
     public void SwitchPathLine()
     {
         pathCreator = pathManager.ReturnCurrenntRoad();
         distance = 0;
-    }
-
-    private void OnGameEnd(bool winCondition)
-    {
-        DeInit();
-        if (winCondition)
-        {
-            return;
-        }
     }
 }

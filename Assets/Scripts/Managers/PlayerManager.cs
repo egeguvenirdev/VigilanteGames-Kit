@@ -5,12 +5,18 @@ using DG.Tweening;
 
 public class PlayerManager : MonoSingleton<PlayerManager>
 {
-    [Header("Scripts")]
+    [Header("Components")]
     [SerializeField] private RunnerScript runnerScript;
+    [SerializeField] private Transform characterTransform;
 
     private GameManager gameManager;
 
     Sequence sequence;
+
+    public Transform GetCharacterTransform
+    {
+        get => characterTransform;
+    }
 
     public void Init()
     {

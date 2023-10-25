@@ -11,46 +11,13 @@ public class GameManager : MonoSingleton<GameManager>
     [Header("PlayerPrefs")]
     [SerializeField] private bool clearPlayerPrefs;
 
-    [Header("Money Settings")]
-    [SerializeField] private int addMoney = 0;
-    private float moneyMultiplier = 1;
-
     private PlayerManager playerManager;
     private HcLevelManager hcLevelManager;
+    private MoneyManager moneyManager;
     private UIManager uIManager;
-
-    public float MoneyMultipler
-    {
-        get => moneyMultiplier;
-        set => moneyMultiplier = value;
-    }
-
-    public int Money
-    {
-        get => PlayerPrefs.GetInt("TotalMoney", 0);
-        set
-        {
-            float calculatedMoney = (float)value;
-            if (value > 0)
-            {
-                calculatedMoney = (float)value * moneyMultiplier;
-            }
-            PlayerPrefs.SetInt("TotalMoney", PlayerPrefs.GetInt("TotalMoney", 0) + (int)calculatedMoney);
-            UIManager.Instance.SetMoneyUI(Money, true);
-        }
-    }
 
     void Start()
     {
-        if (clearPlayerPrefs)
-        {
-            PlayerPrefs.DeleteAll();
-            Money = addMoney;
-        }
-
-        if(Money <= 0) Money = addMoney;
-        Money = 0;
-
         SetInits();
     }
 
@@ -58,6 +25,9 @@ public class GameManager : MonoSingleton<GameManager>
     {
         hcLevelManager = HcLevelManager.Instance;
         hcLevelManager.Init();
+
+        moneyManager = MoneyManager.Instance;
+        moneyManager.Init(clearPlayerPrefs);
 
         uIManager = UIManager.Instance;
         uIManager.Init();

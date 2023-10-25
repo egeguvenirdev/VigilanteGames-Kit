@@ -21,7 +21,7 @@ public class UIManager : MonoSingleton<UIManager>
     private GameManager gameManager;
     private HcLevelManager levelManager;
 
-    private int smoothMoneyNumbers = 0;
+    private float smoothMoneyNumbers = 0;
     private Tweener smoothTween;
 
     public void Init()
@@ -70,7 +70,7 @@ public class UIManager : MonoSingleton<UIManager>
     }
 
     #region Money
-    public void SetMoneyUI(int totalMoney, bool setSmoothly)
+    public void SetMoneyUI(float totalMoney, bool setSmoothly)
     {
         //totalMoneyText.text = money;
 

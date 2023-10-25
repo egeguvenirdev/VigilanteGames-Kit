@@ -39,6 +39,7 @@ public abstract class UpgradeCard : ButtonBase
         gameManager = GameManager.Instance;
         vibrationManager = VibrationManager.Instance;
         playerManager = FindObjectOfType<PlayerManager>();
+
         SetButtonText();
         SetButtonApperence();
         ApplyUpgrades();
@@ -60,7 +61,7 @@ public abstract class UpgradeCard : ButtonBase
         vibrationManager.SoftVibration();
 
         playerManager.OnUpgrade(upgradeType, UpgradeCurrentValue);
-        gameManager.Money = -CurrentPrice;
+        ActionManager.UpdateMoney?.Invoke(-CurrentPrice);
         SkillLevel = 1;
 
         transform.DOKill(true);
@@ -94,7 +95,7 @@ public abstract class UpgradeCard : ButtonBase
     {
         if (gameManager == null) gameManager = GameManager.Instance;
 
-        if (gameManager.Money < CurrentPrice)
+        if (ActionManager.CheckMoneyAmount(CurrentPrice))
         {
             button.enabled = false;
             priceText.color = red;

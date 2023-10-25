@@ -10,6 +10,7 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     [SerializeField] private Transform characterTransform;
 
     private GameManager gameManager;
+    private MoneyManager moneyManager;
 
     Sequence sequence;
 
@@ -21,6 +22,7 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     public void Init()
     {
         gameManager = GameManager.Instance;
+        moneyManager = MoneyManager.Instance;
         runnerScript.Init();
     }
 
@@ -52,7 +54,7 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     private void IncomeUpgrade(float value)
     {
         if (gameManager == null) gameManager = GameManager.Instance;
-        gameManager.MoneyMultipler = value;
+        moneyManager.MoneyMultipler = value;
     }
 
     private void FireRangeUpgrade(float value)

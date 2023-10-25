@@ -30,12 +30,14 @@ public abstract class UpgradeCard : ButtonBase
     private UIManager uiManager;
     private GameManager gameManager;
     private PlayerManager playerManager;
+    private VibrationManager vibrationManager;
     private int level;
 
     public override void Init()
     {
         uiManager = UIManager.Instance;
         gameManager = GameManager.Instance;
+        vibrationManager = VibrationManager.Instance;
         playerManager = FindObjectOfType<PlayerManager>();
         SetButtonText();
         SetButtonApperence();
@@ -55,7 +57,7 @@ public abstract class UpgradeCard : ButtonBase
 
     public override void OnButtonClick()
     {
-        //GameManager.Haptic(0);
+        vibrationManager.SoftVibration();
 
         playerManager.OnUpgrade(upgradeType, UpgradeCurrentValue);
         gameManager.Money = -CurrentPrice;

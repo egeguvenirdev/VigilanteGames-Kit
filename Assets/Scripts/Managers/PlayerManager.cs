@@ -53,7 +53,11 @@ public class PlayerManager : MonoBehaviour
 
     private void IncomeUpgrade(float value)
     {
-        if (gameManager == null) gameManager = GameManager.Instance;
+        if (value < 1)
+        {
+            ActionManager.UpdateMoneyMultiplier?.Invoke(1);
+            return;
+        }
         ActionManager.UpdateMoneyMultiplier?.Invoke(value);
     }
 

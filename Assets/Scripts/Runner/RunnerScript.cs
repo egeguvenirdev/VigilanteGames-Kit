@@ -71,11 +71,13 @@ public class RunnerScript : MonoBehaviour
     {
         if (checkRun)
         {
+            playerSwerve.Init();
             canRun = true;
             canSwerve = true;
         }
         else
         {
+            playerSwerve.DeInit();
             canRun = false;
             canSwerve = false;
         }

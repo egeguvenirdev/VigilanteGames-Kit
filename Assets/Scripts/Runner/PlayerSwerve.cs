@@ -18,7 +18,17 @@ public class PlayerSwerve : MonoBehaviour
     private Vector2 dir;
     private Vector2 dirOld;
 
-    void Update()
+    public void Init()
+    {
+        ActionManager.UpdateManager += OnUpdate;
+    }
+
+    public void DeInit()
+    {
+        ActionManager.UpdateManager -= OnUpdate;
+    }
+
+    private void OnUpdate(float deltaTime)
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -45,7 +55,7 @@ public class PlayerSwerve : MonoBehaviour
             deltaDir = dir - dirOld;
             dirOld = dir;
             //lastPos += (deltaDir.x * moveSpeed * Time.deltaTime);
-            ActionManager.SwerveValue?.Invoke(deltaDir.x * moveSpeed * Time.deltaTime);
+            ActionManager.SwerveValue?.Invoke(deltaDir.x * moveSpeed * deltaTime);
         }
     }
 }

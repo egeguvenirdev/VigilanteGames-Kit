@@ -18,6 +18,8 @@ public static class ActionManager
     //MoneyActions
     public static Action<float> UpdateMoney { get; set; }
 
+    public static Action<float> UpdateMoneyMultiplier { get; set; }
+
     public static Predicate<float> CheckMoneyAmount { get; set; }
 
     //Player Controls

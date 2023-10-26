@@ -11,28 +11,7 @@ public class MoneyManager : MonoSingleton<MoneyManager>
     public float MoneyMultipler
     {
         get => moneyMultiplier;
-        set => moneyMultiplier = value;
-    }
-
-    public void Init(bool clearPlayerPrefs)
-    {
-        ActionManager.UpdateMoney += OnUpdataMoney;
-        ActionManager.CheckMoneyAmount += OnCheckMoneyAmount;
-
-        if (clearPlayerPrefs)
-        {
-            PlayerPrefs.DeleteAll();
-            Money = addMoney;
-        }
-
-        if (Money <= 0) Money = addMoney;
-        Money = 0;
-    }
-
-    public void DeInit()
-    {
-        ActionManager.UpdateMoney -= OnUpdataMoney;
-        ActionManager.CheckMoneyAmount -= OnCheckMoneyAmount;
+        private set => moneyMultiplier = value;
     }
 
     public float Money
@@ -50,9 +29,37 @@ public class MoneyManager : MonoSingleton<MoneyManager>
         }
     }
 
+    public void Init(bool clearPlayerPrefs)
+    {
+        ActionManager.UpdateMoney += OnUpdataMoney;
+        ActionManager.UpdateMoneyMultiplier += OnUpdataMoneyMultiplier;
+        ActionManager.CheckMoneyAmount += OnCheckMoneyAmount;
+
+        if (clearPlayerPrefs)
+        {
+            PlayerPrefs.DeleteAll();
+            Money = addMoney;
+        }
+
+        if (Money <= 0) Money = addMoney;
+        Money = 0;
+    }
+
+    public void DeInit()
+    {
+        ActionManager.UpdateMoney -= OnUpdataMoney;
+        ActionManager.UpdateMoneyMultiplier -= OnUpdataMoneyMultiplier;
+        ActionManager.CheckMoneyAmount -= OnCheckMoneyAmount;
+    }
+
     private void OnUpdataMoney(float value)
     {
         Money = value;
+    }
+
+    private void OnUpdataMoneyMultiplier(float value)
+    {
+        MoneyMultipler = value;
     }
 
     private bool OnCheckMoneyAmount(float value)

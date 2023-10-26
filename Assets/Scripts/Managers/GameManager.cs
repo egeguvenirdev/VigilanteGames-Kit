@@ -40,7 +40,6 @@ public class GameManager : MonoSingleton<GameManager>
         camManager.Init();
 
         bandRotator = FindObjectOfType<BandRotator>();
-        bandRotator.Init();
     }
 
     private void DeInits()
@@ -57,6 +56,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         playerManager = FindObjectOfType<PlayerManager>();
         playerManager.Init();
+        bandRotator.Init();
     }
 
     public void OnLevelSucceed()

@@ -54,7 +54,7 @@ public class PlayerManager : MonoBehaviour
     private void IncomeUpgrade(float value)
     {
         if (gameManager == null) gameManager = GameManager.Instance;
-        moneyManager.MoneyMultipler = value;
+        ActionManager.UpdateMoneyMultiplier?.Invoke(value);
     }
 
     private void FireRangeUpgrade(float value)

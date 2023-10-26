@@ -5,72 +5,72 @@ using UnityEngine;
 
 public class SimpleAnimancer : MonoBehaviour
 {
-    [SerializeField] private AnimancerComponent _animancer;
-    [SerializeField] private float _fadeDuration = 0.1f;
-    [Space]
-    [SerializeField] private AnimationClip[] _clips;
-    [SerializeField] private bool _playDefault = false;
+    [Header("Animator Settings")]
+    [SerializeField] private AnimancerComponent animancer;
+    [SerializeField] private float fadeDuration = 0.1f;
+    [SerializeField] private AnimationClip[] clips;
+    [SerializeField] private bool playDefault = false;
 
-    private AnimancerState _currentState;
+    private AnimancerState currentState;
 
     private void Start()
     {
-        if (_playDefault)
+        if (playDefault)
         {
-            PlayAnimation(_clips[0].name);
+            PlayAnimation(clips[0]);
         }
     }
 
     public void Stop()
     {
         //_animancer.Stop();
-        _animancer.States.Current.Stop();
-        _animancer.States.Current.Weight = 1;
+        animancer.States.Current.Stop();
+        animancer.States.Current.Weight = 1;
     }
 
     public void MakeRandomKeyframe()
     {
-        _currentState.NormalizedTime = Random.Range(0f, 1f);
+        currentState.NormalizedTime = Random.Range(0f, 1f);
     }
 
     public void PlayAnimation(string clipName)
     {
         AnimationClip clip = GetAnimationClipByName(clipName);
-        if (_animancer != null && clip != null)
+        if (animancer != null && clip != null)
         {
-            _currentState = _animancer.Play(clip, _fadeDuration);
+            currentState = animancer.Play(clip, fadeDuration);
         }
     }
 
     public void PlayAnimation(AnimationClip clip)
     {
-        if (_animancer != null && clip != null)
+        if (animancer != null && clip != null)
         {
-            _currentState = _animancer.Play(clip, _fadeDuration);
+            currentState = animancer.Play(clip, fadeDuration);
         }
     }
 
     public void PlayMixer(LinearMixerTransition transition, float speed)
     {
-        _currentState = _animancer.Play(transition, _fadeDuration);
+        currentState = animancer.Play(transition, fadeDuration);
     }
 
     public void SetStateSpeed(float speed)
     {
-        if (_currentState == null)
+        if (currentState == null)
         {
             return;
         }
-        _currentState.Speed = speed;
+        currentState.Speed = speed;
     }
 
     AnimationClip GetAnimationClipByName(string clipName)
     {
-        for (int i = 0; i < _clips.Length; i++)
+        for (int i = 0; i < clips.Length; i++)
         {
-            if (_clips[i].name.Equals(clipName))
+            if (clips[i].name.Equals(clipName))
             {
-                return _clips[i];
+                return clips[i];
             }
         }
         return null;
@@ -78,16 +78,16 @@ public class SimpleAnimancer : MonoBehaviour
 
     public Transform GetAnimatorTransform()
     {
-        return _animancer.transform;
+        return animancer.transform;
     }
 
     public float GetRemainingDuration()
     {
-        return _currentState.RemainingDuration;
+        return currentState.RemainingDuration;
     }
 
     public float GetDuration()
     {
-        return _currentState.Duration;
+        return currentState.Duration;
     }
 }

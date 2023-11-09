@@ -8,7 +8,7 @@ using DG.Tweening;
 public class UIManager : MonoSingleton<UIManager>
 {
     [Header("Panels")]
-    [SerializeField] private List<ButtonBase> panels = new List<ButtonBase>();
+    [SerializeField] private ButtonBase[] panels;
     [SerializeField] private UpgradeCard[] upgradeButtons;
 
     [Header("Level & Money")]
@@ -34,7 +34,7 @@ public class UIManager : MonoSingleton<UIManager>
             upgradeButtons[i].Init();
         }
 
-        for (int i = 0; i < panels.Count; i++)
+        for (int i = 0; i < panels.Length; i++)
         {
             panels[i].Init();
         }
@@ -43,6 +43,11 @@ public class UIManager : MonoSingleton<UIManager>
     public void DeInit()
     {
         for (int i = 0; i < upgradeButtons.Length; i++)
+        {
+            upgradeButtons[i].DeInit();
+        }
+
+        for (int i = 0; i < panels.Length; i++)
         {
             panels[i].DeInit();
         }

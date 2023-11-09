@@ -28,25 +28,23 @@ public abstract class UpgradeCard : ButtonBase
     [SerializeField] protected TMP_Text priceText;
 
     private UIManager uiManager;
-    private GameManager gameManager;
     private PlayerManager playerManager;
     private VibrationManager vibrationManager;
 
     public override void Init()
     {
+        ActionManager.GameStart += ApplyUpgrades;
+
         uiManager = UIManager.Instance;
-        gameManager = GameManager.Instance;
         vibrationManager = VibrationManager.Instance;
         playerManager = FindObjectOfType<PlayerManager>();
 
-        SetButtonText();
-        SetButtonApperence();
         ApplyUpgrades();
     }
 
     public override void DeInit()
     {
-
+        ActionManager.GameStart -= ApplyUpgrades;
     }
 
     public void OnPurchase()
@@ -92,9 +90,7 @@ public abstract class UpgradeCard : ButtonBase
 
     protected void SetButtonApperence()
     {
-        if (gameManager == null) gameManager = GameManager.Instance;
-
-        if (ActionManager.CheckMoneyAmount(CurrentPrice))
+        if (!ActionManager.CheckMoneyAmount(CurrentPrice))
         {
             button.enabled = false;
             priceText.color = red;
@@ -108,7 +104,6 @@ public abstract class UpgradeCard : ButtonBase
 
     protected void SetButtonText()
     {
-        if (uiManager == null) uiManager = UIManager.Instance;
         levelText.text = SkillLevel + ConstantVariables.LevelStats.Lv;
         priceText.text = "" + uiManager.FormatFloatToReadableString(CurrentPrice);
     }

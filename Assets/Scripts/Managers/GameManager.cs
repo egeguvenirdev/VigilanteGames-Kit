@@ -32,8 +32,8 @@ public class GameManager : MonoSingleton<GameManager>
     private void SetInits()
     {
         levelManager.Init();
-        moneyManager.Init(clearPlayerPrefs);
         uIManager.Init();
+        moneyManager.Init(clearPlayerPrefs);
         updateManager.Init();
         camManager.Init();
     }
@@ -49,6 +49,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void OnStartTheGame()
     {
+        ActionManager.GameStart?.Invoke();
         playerManager = FindObjectOfType<PlayerManager>();
         playerManager.Init();
         bandRotator.Init();

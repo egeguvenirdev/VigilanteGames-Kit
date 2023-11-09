@@ -4,13 +4,13 @@ using UnityEngine;
 
 public readonly struct EnemyConfig
 {
-    public readonly float Size;
+    public readonly float Health;
     public readonly float Power;
     public readonly int Money;
 
-    public EnemyConfig(float size, float power, int money)
+    public EnemyConfig(float health, float power, int money)
     {
-        Size = size;
+        Health = health;
         Power = power;
         Money = money;
     }

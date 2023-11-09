@@ -16,7 +16,7 @@ public class MoneyManager : MonoSingleton<MoneyManager>
 
     public float Money
     {
-        get => PlayerPrefs.GetInt(ConstantVariables.TotalMoneyValue.TotalMoney, 0);
+        get => PlayerPrefs.GetFloat(ConstantVariables.TotalMoneyValue.TotalMoney, 0);
         private set
         {
             float calculatedMoney = value;
@@ -24,7 +24,7 @@ public class MoneyManager : MonoSingleton<MoneyManager>
             {
                 calculatedMoney = value * moneyMultiplier;
             }
-            PlayerPrefs.SetFloat(ConstantVariables.TotalMoneyValue.TotalMoney, PlayerPrefs.GetInt(ConstantVariables.TotalMoneyValue.TotalMoney, 0) + calculatedMoney);
+            PlayerPrefs.SetFloat(ConstantVariables.TotalMoneyValue.TotalMoney, PlayerPrefs.GetFloat(ConstantVariables.TotalMoneyValue.TotalMoney, 0) + calculatedMoney);
             UIManager.Instance.SetMoneyUI(Money, true);
         }
     }
@@ -35,9 +35,8 @@ public class MoneyManager : MonoSingleton<MoneyManager>
         ActionManager.UpdateMoneyMultiplier += OnUpdataMoneyMultiplier;
         ActionManager.CheckMoneyAmount += OnCheckMoneyAmount;
 
-        if (clearPlayerPrefs)
+        if (addMoney > 0)
         {
-            PlayerPrefs.DeleteAll();
             Money = addMoney;
         }
 

@@ -23,9 +23,10 @@ public class PlayButton : ButtonBase
         if (upgradePanel != null)
         {
             upgradePanel.SetActive(true);
-            gameObject.SetActive(false);
+            panelElements.SetActive(false);
             return;
         }
+        panelElements.SetActive(false);
         gameManager.OnStartTheGame();
     }
 }

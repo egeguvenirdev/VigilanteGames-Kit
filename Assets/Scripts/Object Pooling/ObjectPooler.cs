@@ -6,11 +6,11 @@ using System.Linq;
 public class ObjectPooler : MonoSingleton<ObjectPooler>
 {
     [SerializeField] private List<ObjectPooledItem> itemsToPool;
-    [SerializeField] private List<ObjectPooledItem> enemyiesToPool;
+    [SerializeField] private List<ObjectPooledItem> textsToPool;
     [SerializeField] private GameObject pooledObjectHolder;
 
     private List<GameObject> pooledObjects;
-    private List<GameObject> pooledEnemies;
+    private List<SlideText> pooledText;
 
     private void Awake()
     {
@@ -23,6 +23,18 @@ public class ObjectPooler : MonoSingleton<ObjectPooler>
                 obj.transform.SetParent(pooledObjectHolder.transform);
                 obj.SetActive(false);
                 pooledObjects.Add(obj);
+            }
+        }
+
+        pooledText = new List<SlideText>();
+        foreach (ObjectPooledItem item in textsToPool)
+        {
+            for (int i = 0; i < item.amountToPool; i++)
+            {
+                GameObject obj = (GameObject)Instantiate(item.objectToPool);
+                obj.transform.SetParent(pooledObjectHolder.transform);
+                obj.SetActive(false);
+                pooledText.Add(obj.GetComponent<SlideText>());
             }
         }
     }
@@ -53,27 +65,27 @@ public class ObjectPooler : MonoSingleton<ObjectPooler>
         return null;
     }
 
-    public GameObject GetPooledEnemy(EnemyType enemyType)
+    public SlideText GetPooledText()
     {
-        for (int i = pooledEnemies.Count - 1; i > -1; i--)
+        for (int i = pooledText.Count - 1; i > -1; i--)
         {
-            if (!pooledEnemies[i].activeInHierarchy && pooledEnemies[i].GetComponent<EnemyBase>().enemyType == enemyType)
+            if (!pooledText[i].gameObject.activeInHierarchy && pooledText[i].tag == tag)
             {
-                return pooledEnemies[i];
+                return pooledText[i];
             }
         }
-        //pooledObjects.First(o => o.activeInHierarchy && o.tag == tag);
-        foreach (ObjectPooledItem item in enemyiesToPool)
+        foreach (ObjectPooledItem item in itemsToPool)
         {
-            if (item.objectToPool.GetComponent<EnemyBase>().enemyType == enemyType)
+            if (item.objectToPool.tag == tag)
             {
                 if (item.shouldExpand)
                 {
                     GameObject obj = (GameObject)Instantiate(item.objectToPool);
+                    SlideText slideText = obj.GetComponent<SlideText>();
                     obj.SetActive(false);
-                    pooledEnemies.Add(obj);
+                    pooledText.Add(slideText);
                     obj.transform.SetParent(pooledObjectHolder.transform);
-                    return obj;
+                    return slideText;
                 }
             }
         }

@@ -30,6 +30,6 @@ public class RestartLevelButton : ButtonBase
     public override void OnButtonClick()
     {
         gameManager.OnLevelFailed();
-        gameObject.SetActive(false);
+        panelElements.SetActive(false);
     }
 }

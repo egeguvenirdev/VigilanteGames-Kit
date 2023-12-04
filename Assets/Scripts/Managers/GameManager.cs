@@ -24,8 +24,7 @@ public class GameManager : MonoSingleton<GameManager>
         uIManager = UIManager.Instance;
         updateManager = FindObjectOfType<UpdateManager>();
         camManager = FindObjectOfType<CamManager>();
-        
-
+       
         SetInits();
     }
 

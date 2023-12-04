@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8779bab598b21ce4eb67eaf1a1ca22b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  offset: {x: 0, y: 0, z: 0}
-  playerFollowSpeed: 0.3
+  followOffset: {x: 0, y: 0, z: 0}
+  playerFollowSpeed: 10
+  clampLocalX: 1.5
 --- !u!1 &8628133917308557227
 GameObject:
   m_ObjectHideFlags: 0

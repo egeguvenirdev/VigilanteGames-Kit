@@ -97,10 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4ab58b7ee7178f48a8d48b638caacd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animancer: {fileID: 1440037957}
-  _fadeDuration: 0.1
-  _clips: []
-  _playDefault: 0
+  animancer: {fileID: 0}
+  fadeDuration: 0.1
+  clips: []
+  playDefault: 0
 --- !u!114 &1440037957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runnerScript: {fileID: 7334631501480717705}
+  characterTransform: {fileID: 7334631500952762661}
 --- !u!114 &7334631501480717705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,19 +178,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 7334631500952762661}
-  submodel: {fileID: 0}
   localMoverTarget: {fileID: 7334631500424685677}
   pathCreator: {fileID: 0}
   animancer: {fileID: 1440037956}
   playerSwerve: {fileID: 182378436109458471}
-  pathManager: {fileID: 0}
   distance: 0
   startDistance: 0
   clampLocalX: 2
   runSpeed: 5
-  localTargetswipeSpeed: 2
-  swipeLerpSpeed: 20
-  swipeRotateLerpSpeed: 5
+  localTargetSwipeSpeed: 2
+  characterSwipeLerpSpeed: 2
+  characterRotateLerpSpeed: 2
+  runAnim: {fileID: 0}
 --- !u!114 &182378436109458471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,4 +202,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ea1be5fbcc64948bc90b2e292ed223, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speedMultiplier: 1
+  moveSpeed: 1000
+  dirMultiplier: 100

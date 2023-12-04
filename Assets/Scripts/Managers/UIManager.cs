@@ -10,6 +10,8 @@ public class UIManager : MonoSingleton<UIManager>
     [Header("Panels")]
     [SerializeField] private ButtonBase[] panels;
     [SerializeField] private UpgradeCard[] upgradeButtons;
+    [SerializeField] private GameObject[] InGameUis;
+    [SerializeField] private ButtonBase upgradePanel;
 
     [Header("Level & Money")]
     [SerializeField] private TMP_Text currentLV;
@@ -26,6 +28,8 @@ public class UIManager : MonoSingleton<UIManager>
     public void Init()
     {
         levelManager = LevelManager.Instance;
+        ActionManager.GameStart += OpenInGameUis;
+        ActionManager.GameEnd += CloseInGameUis;
 
         LevelText();
 
@@ -42,6 +46,9 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void DeInit()
     {
+        ActionManager.GameStart -= OpenInGameUis;
+        ActionManager.GameEnd -= CloseInGameUis;
+
         for (int i = 0; i < upgradeButtons.Length; i++)
         {
             upgradeButtons[i].DeInit();
@@ -70,6 +77,23 @@ public class UIManager : MonoSingleton<UIManager>
         {
             upgradeButtons[i].OnPurchase();
         }
+    }
+
+    private void OpenInGameUis()
+    {
+        for (int i = 0; i < InGameUis.Length; i++)
+        {
+            InGameUis[i].SetActive(true);
+        }
+    }
+
+    public void CloseInGameUis(bool check)
+    {
+        for (int i = 0; i < InGameUis.Length; i++)
+        {
+            InGameUis[i].SetActive(false);
+        }
+        upgradePanel.DeInit();
     }
 
     #region Money

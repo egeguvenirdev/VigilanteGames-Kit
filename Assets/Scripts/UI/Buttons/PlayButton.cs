@@ -11,11 +11,13 @@ public class PlayButton : ButtonBase
     public override void Init()
     {
         gameManager = GameManager.Instance;
+
+        panelElements.SetActive(true);
     }
 
     public override void DeInit()
     {
-
+        panelElements.SetActive(false);
     }
 
     public override void OnButtonClick()
@@ -26,7 +28,8 @@ public class PlayButton : ButtonBase
             panelElements.SetActive(false);
             return;
         }
-        panelElements.SetActive(false);
+
         gameManager.OnStartTheGame();
+        panelElements.SetActive(false);
     }
 }

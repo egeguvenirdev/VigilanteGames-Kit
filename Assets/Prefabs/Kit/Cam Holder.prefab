@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followOffset: {x: 0, y: 0, z: 0}
-  playerFollowSpeed: 10
+  playerFollowSpeed: 3
   clampLocalX: 1.5
 --- !u!1 &8628133917308557227
 GameObject:

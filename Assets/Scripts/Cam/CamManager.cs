@@ -29,7 +29,7 @@ public class CamManager : MonoBehaviour
         {
             Vector3 targetPosition = player.position + followOffset;
             targetPosition.x = Mathf.Clamp(targetPosition.x, -clampLocalX, clampLocalX);
-            transform.position = Vector3.Lerp(transform.position, targetPosition, playerFollowSpeed);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, playerFollowSpeed * deltaTime);
         }
     }
 }

@@ -10,6 +10,8 @@ public class RestartLevelButton : ButtonBase
 
     public override void Init()
     {
+        base.Init();
+
         ActionManager.GameEnd += OnGameEnd;
         gameManager = GameManager.Instance;
     }
@@ -29,6 +31,8 @@ public class RestartLevelButton : ButtonBase
 
     public override void OnButtonClick()
     {
+        base.OnButtonClick();
+
         gameManager.OnLevelFailed();
         panelElements.SetActive(false);
     }

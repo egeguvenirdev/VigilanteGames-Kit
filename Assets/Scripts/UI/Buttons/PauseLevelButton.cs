@@ -6,7 +6,7 @@ public class PauseLevelButton : ButtonBase
 {
     public override void Init()
     {
-
+        base.Init();
     }
 
     public override void DeInit()
@@ -16,6 +16,8 @@ public class PauseLevelButton : ButtonBase
 
     public override void OnButtonClick()
     {
+        base.OnButtonClick();
+
         gameObject.SetActive(false);
     }
 }

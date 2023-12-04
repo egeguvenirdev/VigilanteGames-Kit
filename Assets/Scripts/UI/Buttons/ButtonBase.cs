@@ -4,9 +4,17 @@ using UnityEngine;
 
 public abstract class ButtonBase : MonoBehaviour
 {
-    public abstract void Init();
+    protected VibrationManager vibration;
+
+    public virtual void Init()
+    {
+        vibration = VibrationManager.Instance;
+    }
 
     public abstract void DeInit();
 
-    public abstract void OnButtonClick();
+    public virtual void OnButtonClick()
+    {
+        vibration.SelectionVibration();
+    }
 }

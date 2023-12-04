@@ -10,8 +10,9 @@ public class PlayButton : ButtonBase
 
     public override void Init()
     {
-        gameManager = GameManager.Instance;
+        base.Init();
 
+        gameManager = GameManager.Instance;
         panelElements.SetActive(true);
     }
 
@@ -22,6 +23,8 @@ public class PlayButton : ButtonBase
 
     public override void OnButtonClick()
     {
+        base.OnButtonClick();
+
         if (upgradePanel != null)
         {
             upgradePanel.SetActive(true);

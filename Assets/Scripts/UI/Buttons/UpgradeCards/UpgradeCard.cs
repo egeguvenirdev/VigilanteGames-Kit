@@ -33,6 +33,8 @@ public abstract class UpgradeCard : ButtonBase
 
     public override void Init()
     {
+        base.Init();
+
         ActionManager.GameStart += ApplyUpgrades;
 
         uiManager = UIManager.Instance;
@@ -55,6 +57,8 @@ public abstract class UpgradeCard : ButtonBase
 
     public override void OnButtonClick()
     {
+        base.OnButtonClick();
+
         vibrationManager.SoftVibration();
 
         playerManager.OnUpgrade(upgradeType, UpgradeCurrentValue);

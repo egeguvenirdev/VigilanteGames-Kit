@@ -9,6 +9,8 @@ public class NextLevelButton : ButtonBase
 
     public override void Init()
     {
+        base.Init();
+
         ActionManager.GameEnd += OnGameEnd;
         gameManager = GameManager.Instance;
     }
@@ -28,6 +30,8 @@ public class NextLevelButton : ButtonBase
 
     public override void OnButtonClick()
     {
+        base.OnButtonClick();
+
         gameManager.OnLevelSucceed();
         panelElements.SetActive(false);
     }

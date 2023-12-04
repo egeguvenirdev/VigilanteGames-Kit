@@ -15,6 +15,7 @@ public static class ActionManager
 
     public static Action<Vector3> ManagerUpdate { get; set; }
 
+
     //MoneyActions
     public static Action<float> UpdateMoney { get; set; }
 
@@ -22,8 +23,13 @@ public static class ActionManager
 
     public static Predicate<float> CheckMoneyAmount { get; set; }
 
+
     //Player Controls
     public static Action<float> SwerveValue { get; set; }
+
+
+    //Visual Effects
+    public static Action CamShake { get; set; }
 
     public static void ResetAllStaticVariables()
     {

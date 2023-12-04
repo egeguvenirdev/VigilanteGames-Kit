@@ -6,11 +6,13 @@ using DG.Tweening;
 
 public class SlideText : MonoBehaviour
 {
+    [Header("Text Settings")]
     [SerializeField] private float lifeTime = 1;
+    [SerializeField] private float valueY = 2f;
     [SerializeField] private TMP_Text text;
     [SerializeField] private TextMeshPro tmpPro;
-    private Color32 colorFade;
 
+    private Color32 colorFade;
     private ObjectPooler pooler;
 
     private void Start()
@@ -40,7 +42,7 @@ public class SlideText : MonoBehaviour
 
         yield return new WaitForSeconds(lifeTime);
 
-        transform.SetParent(pooler.transform);
+        transform.parent = pooler.transform;
         gameObject.SetActive(false);
     }
 }

@@ -13,9 +13,10 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField] private GameObject[] InGameUis;
     [SerializeField] private ButtonBase upgradePanel;
 
-    [Header("Level & Money")]
+    [Header("Level & Progress Props")]
     [SerializeField] private TMP_Text currentLV;
     [SerializeField] private TMP_Text totalMoneyText;
+    [SerializeField] private TMP_Text timerText;
 
     [Header("Health & Xp Bars")]
     [SerializeField] private Image progressBarImage;
@@ -64,6 +65,11 @@ public class UIManager : MonoSingleton<UIManager>
     {
         int levelInt = levelManager.LevelIndex + 1;
         currentLV.text = "Level " + levelInt;
+    }
+
+    public void TimerText(string refText)
+    {
+        timerText.text = refText;
     }
 
     public void SetProgress(float progress)

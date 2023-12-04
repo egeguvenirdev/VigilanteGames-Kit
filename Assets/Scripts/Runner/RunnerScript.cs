@@ -23,6 +23,7 @@ public class RunnerScript : MonoBehaviour
     [SerializeField] private float localTargetSwipeSpeed = 2f;
     [SerializeField] private float characterSwipeLerpSpeed = 2f;
     [SerializeField] private float characterRotateLerpSpeed = 2f;
+    [SerializeField] private bool canFollow = true;
 
     [Header("Animations")]
     [SerializeField] private AnimationClip runAnim;
@@ -31,7 +32,6 @@ public class RunnerScript : MonoBehaviour
     private Vector3 oldPosition;
     private bool canRun = false;
     private bool canSwerve = false;
-    private bool canFollow = true;
     private bool canLookAt = true;
 
     public float RunSpeed
@@ -109,7 +109,7 @@ public class RunnerScript : MonoBehaviour
 
 
         //follower character
-        if (!canFollow)
+        if (canFollow)
         {
             Vector3 direction = localMoverTarget.localPosition - oldPosition;
             model.transform.forward = Vector3.Lerp(model.transform.forward, direction, characterRotateLerpSpeed * deltaTime);

@@ -24,7 +24,7 @@ public class GameManager : MonoSingleton<GameManager>
         uIManager = UIManager.Instance;
         updateManager = FindObjectOfType<UpdateManager>();
         camManager = FindObjectOfType<CamManager>();
-        bandRotator = FindObjectOfType<BandRotator>();
+        
 
         SetInits();
     }
@@ -50,8 +50,11 @@ public class GameManager : MonoSingleton<GameManager>
     public void OnStartTheGame()
     {
         ActionManager.GameStart?.Invoke();
+
         playerManager = FindObjectOfType<PlayerManager>();
         playerManager.Init();
+
+        bandRotator = FindObjectOfType<BandRotator>();
         bandRotator.Init();
     }
 

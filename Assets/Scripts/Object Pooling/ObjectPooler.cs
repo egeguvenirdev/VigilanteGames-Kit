@@ -38,6 +38,7 @@ public class ObjectPooler : MonoSingleton<ObjectPooler>
             }
         }
     }
+
     public GameObject GetPooledObjectWithTag(string tag)
     {
         for (int i = pooledObjects.Count - 1; i > -1; i--)
@@ -69,24 +70,22 @@ public class ObjectPooler : MonoSingleton<ObjectPooler>
     {
         for (int i = pooledText.Count - 1; i > -1; i--)
         {
-            if (!pooledText[i].gameObject.activeInHierarchy && pooledText[i].tag == tag)
+            if (!pooledText[i].gameObject.activeInHierarchy)
             {
                 return pooledText[i];
             }
         }
-        foreach (ObjectPooledItem item in itemsToPool)
+
+        foreach (ObjectPooledItem item in textsToPool)
         {
-            if (item.objectToPool.tag == tag)
+            if (item.shouldExpand)
             {
-                if (item.shouldExpand)
-                {
-                    GameObject obj = (GameObject)Instantiate(item.objectToPool);
-                    SlideText slideText = obj.GetComponent<SlideText>();
-                    obj.SetActive(false);
-                    pooledText.Add(slideText);
-                    obj.transform.SetParent(pooledObjectHolder.transform);
-                    return slideText;
-                }
+                GameObject obj = (GameObject)Instantiate(item.objectToPool);
+                SlideText slideText = obj.GetComponent<SlideText>();
+                obj.SetActive(false);
+                pooledText.Add(slideText);
+                obj.transform.SetParent(pooledObjectHolder.transform);
+                return slideText;
             }
         }
         return null;

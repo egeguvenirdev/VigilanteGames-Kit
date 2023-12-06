@@ -45,10 +45,10 @@ public class MeleeEnemy : EnemyBase
     private IEnumerator HitRoutine()
     {
         canMove = false;
-        yield return new WaitForSeconds(0.833f * 0.54f);
+        yield return WaitForSecondsPooler.Wait(0.833f * 0.54f);
         if (objectPooler == null) objectPooler = ObjectPooler.Instance;
         Fire();
-        yield return new WaitForSeconds(0.833f - (0.833f * 0.54f));
+        yield return WaitForSecondsPooler.Wait(0.833f - (0.833f * 0.54f));
         _animancer.Stop();
         canMove = true;
     }

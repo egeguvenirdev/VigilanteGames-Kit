@@ -13,7 +13,7 @@ public static class ActionManager
 
     public static Action<float> UpdateManager { get; set; }
 
-    public static Action<Vector3> ManagerUpdate { get; set; }
+    public static Action<Vector3> AiUpgrade { get; set; }
 
 
     //MoneyActions

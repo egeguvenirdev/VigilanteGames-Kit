@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreMountains.Feedbacks.Aut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreMountains.Tools.Editor", "MoreMountains.Tools.Editor.csproj", "{CD7C317E-1D1E-3F95-9FF7-4DF445D5FB27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{5243A24A-9C46-8CED-978F-9912CBF63106}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Boxophobic.Utils.Editor", "Boxophobic.Utils.Editor.csproj", "{FED08DAE-095A-5942-89D7-EB59D3459FEA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreMountains.Feedbacks.Editor", "MoreMountains.Feedbacks.Editor.csproj", "{1D0A68CE-CACE-0288-D38F-05CFE739D50C}"
@@ -58,8 +60,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugins.Baedrick.ColoredHeaderCreator.Editor", "Plugins.Baedrick.ColoredHeaderCreator.Editor.csproj", "{F56EECBE-AA1F-AB05-BE27-D21C22C4FF92}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lofelt.NiceVibrations.Editor", "Lofelt.NiceVibrations.Editor.csproj", "{FC30CF14-A105-2F56-6E5D-56D8ABF076FF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{5243A24A-9C46-8CED-978F-9912CBF63106}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -159,6 +159,10 @@ Global
 		{CD7C317E-1D1E-3F95-9FF7-4DF445D5FB27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD7C317E-1D1E-3F95-9FF7-4DF445D5FB27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD7C317E-1D1E-3F95-9FF7-4DF445D5FB27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5243A24A-9C46-8CED-978F-9912CBF63106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5243A24A-9C46-8CED-978F-9912CBF63106}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5243A24A-9C46-8CED-978F-9912CBF63106}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5243A24A-9C46-8CED-978F-9912CBF63106}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FED08DAE-095A-5942-89D7-EB59D3459FEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FED08DAE-095A-5942-89D7-EB59D3459FEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FED08DAE-095A-5942-89D7-EB59D3459FEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -183,10 +187,6 @@ Global
 		{FC30CF14-A105-2F56-6E5D-56D8ABF076FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC30CF14-A105-2F56-6E5D-56D8ABF076FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC30CF14-A105-2F56-6E5D-56D8ABF076FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5243A24A-9C46-8CED-978F-9912CBF63106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5243A24A-9C46-8CED-978F-9912CBF63106}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5243A24A-9C46-8CED-978F-9912CBF63106}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5243A24A-9C46-8CED-978F-9912CBF63106}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

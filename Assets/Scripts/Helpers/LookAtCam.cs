@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class LookAtCam : MonoBehaviour
 {
+    private Transform target;
+
+    private void Start()
+    {
+        target = Camera.main.transform;
+    }
+
     void LateUpdate()
     {
-        transform.LookAt(Camera.main.transform);
+        transform.LookAt(target);
     }
 }

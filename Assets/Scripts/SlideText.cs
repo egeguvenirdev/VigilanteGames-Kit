@@ -40,7 +40,7 @@ public class SlideText : MonoBehaviour
             tmpPro.color = colorFade;
         });
 
-        yield return new WaitForSeconds(lifeTime);
+        yield return WaitForSecondsPooler.Wait(lifeTime);
 
         transform.parent = pooler.transform;
         gameObject.SetActive(false);

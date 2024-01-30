@@ -7,8 +7,11 @@ using DG.Tweening;
 public class SlideText : MonoBehaviour
 {
     [Header("Text Settings")]
+    [SerializeField] private Ease easeType = Ease.OutQuint;
     [SerializeField] private float lifeTime = 1;
     [SerializeField] private float valueY = 2f;
+
+    [Header("Text Components")]
     [SerializeField] private TMP_Text text;
     [SerializeField] private TextMeshPro tmpPro;
 
@@ -20,21 +23,21 @@ public class SlideText : MonoBehaviour
         pooler = ObjectPooler.Instance;
     }
 
-    public void SetTheText(int value, Color color, Transform parentObj, Vector3 pos)
+    public void SetTheText(string symbol, int value, Color color, Transform parentObj, Vector3 pos)
     {
-        text.text = value + " $";
+        text.text = value + symbol;
 
         transform.parent = parentObj;
         transform.position = pos;
         colorFade = color;
-        MovementAndColor();
+
         StartCoroutine(MovementAndColor());
     }
 
     private IEnumerator MovementAndColor()
     {
         colorFade.a = 255;
-        transform.DOLocalMoveY(transform.localPosition.y + 0.5f, lifeTime).SetEase(Ease.OutQuint);
+        transform.DOLocalMoveY(transform.localPosition.y + valueY, lifeTime).SetEase(easeType);
         DOTween.ToAlpha(() => colorFade, x => colorFade = x, 0, lifeTime).OnUpdate(() =>
         {
             tmpPro.color = colorFade;

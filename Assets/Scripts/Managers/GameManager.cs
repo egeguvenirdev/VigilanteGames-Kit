@@ -16,15 +16,19 @@ public class GameManager : MonoSingleton<GameManager>
     private MoneyManager moneyManager;
     private UIManager uIManager;
     private BandRotator bandRotator;
+    private ObjectPooler pooler;
 
     void Start()
     {
+        if (clearPlayerPrefs) PlayerPrefs.DeleteAll();
+
         levelManager = LevelManager.Instance;
         moneyManager = MoneyManager.Instance;
         uIManager = UIManager.Instance;
+        pooler = ObjectPooler.Instance;
         updateManager = FindObjectOfType<UpdateManager>();
         camManager = FindObjectOfType<CamManager>();
-       
+
         SetInits();
     }
 
@@ -34,16 +38,17 @@ public class GameManager : MonoSingleton<GameManager>
         uIManager.Init();
         moneyManager.Init(clearPlayerPrefs);
         updateManager.Init();
-        camManager.Init();
     }
 
     private void DeInits()
     {
         levelManager.DeInit();
         uIManager.DeInit();
+        moneyManager.DeInit();
         updateManager.DeInit();
         camManager.DeInit();
         bandRotator.DeInit();
+        pooler.DeInit();
     }
 
     public void OnStartTheGame()
@@ -52,6 +57,8 @@ public class GameManager : MonoSingleton<GameManager>
 
         playerManager = FindObjectOfType<PlayerManager>();
         playerManager.Init();
+
+        camManager.Init();
 
         bandRotator = FindObjectOfType<BandRotator>();
         bandRotator.Init();
@@ -74,11 +81,8 @@ public class GameManager : MonoSingleton<GameManager>
     {
         playerManager.DeInit();
 
-        if (check)
-        {
-            ActionManager.GameEnd?.Invoke(true);
-            return;
-        }
-        ActionManager.GameEnd?.Invoke(false);
+        ActionManager.UpdateMoney(50f);
+        ActionManager.GameEnd?.Invoke(check);
+
     }
 }

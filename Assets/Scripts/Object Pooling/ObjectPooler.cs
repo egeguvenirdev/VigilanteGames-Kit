@@ -39,6 +39,19 @@ public class ObjectPooler : MonoSingleton<ObjectPooler>
         }
     }
 
+    public void DeInit()
+    {
+        for (int i = 0; i < pooledText.Count; i++)
+        {
+            pooledText[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < pooledObjects.Count; i++)
+        {
+            pooledObjects[i].gameObject.SetActive(false);
+        }
+    }
+
     public GameObject GetPooledObjectWithTag(string tag)
     {
         for (int i = pooledObjects.Count - 1; i > -1; i--)

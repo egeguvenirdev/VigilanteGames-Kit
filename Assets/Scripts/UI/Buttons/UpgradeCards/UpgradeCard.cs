@@ -134,7 +134,7 @@ public abstract class UpgradeCard : ButtonBase
     {
         get => PlayerPrefs.GetInt(upgradeType.ToString() + ConstantVariables.UpgradePrices.IncrementalPrice, incrementalBasePrice);
         set => PlayerPrefs.SetInt(upgradeType.ToString() + ConstantVariables.UpgradePrices.IncrementalPrice, PlayerPrefs.GetInt(upgradeType.ToString()
-            + ConstantVariables.UpgradePrices.IncrementalPrice, 0) + value);
+            + ConstantVariables.UpgradePrices.IncrementalPrice, incrementalBasePrice) + value);
     }
 
     protected float UpgradeCurrentValue

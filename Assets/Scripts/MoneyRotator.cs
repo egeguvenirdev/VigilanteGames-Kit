@@ -17,12 +17,12 @@ public class MoneyRotator : MonoBehaviour
         minHeight = transform.position;
         maxHeight = minHeight + new Vector3(0, additionalHeight, 0);
 
-        ActionManager.UpdateManager += OnUpdate;
+        ActionManager.Updater += OnUpdate;
     }
 
     public void DeInit()
     {
-        ActionManager.UpdateManager -= OnUpdate;
+        ActionManager.Updater -= OnUpdate;
     }
 
     private void OnUpdate(float deltaTime)

@@ -11,9 +11,9 @@ public static class ActionManager
 
     public static Action<bool> GameEnd { get; set; }
 
-    public static Action<float> UpdateManager { get; set; }
+    public static Action<float> Updater { get; set; }
 
-    public static Action<Vector3> AiUpgrade { get; set; }
+    public static Action<Vector3> AiUpdater { get; set; }
 
 
     //MoneyActions

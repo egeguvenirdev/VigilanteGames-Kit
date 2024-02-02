@@ -25,7 +25,7 @@ public class CamManager : MonoBehaviour
 
     public void Init()
     {
-        ActionManager.UpdateManager += OnUpdate;
+        ActionManager.Updater += OnUpdate;
         ActionManager.CamShake += OnCamShake;
 
         player = FindObjectOfType<PlayerManager>().GetCharacterTransform;
@@ -33,7 +33,7 @@ public class CamManager : MonoBehaviour
 
     public void DeInit()
     {
-        ActionManager.UpdateManager -= OnUpdate;
+        ActionManager.Updater -= OnUpdate;
         ActionManager.CamShake -= OnCamShake;
     }
 

@@ -45,7 +45,7 @@ public class EnemyBase : MonoBehaviour
         playerManager = FindObjectOfType<PlayerManager>();
         //SetProperties(playerManager.PlayerLevel);
 
-        ActionManager.AiUpgrade += MoveTowardsPlayer;
+        ActionManager.AiUpdater += MoveTowardsPlayer;
         ActionManager.GameEnd += OnGameEnd;
 
         ResHealth();
@@ -112,7 +112,7 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void Die()
     {
-        ActionManager.AiUpgrade -= MoveTowardsPlayer;
+        ActionManager.AiUpdater -= MoveTowardsPlayer;
         ActionManager.GameEnd -= OnGameEnd;
 
         ResHealth();

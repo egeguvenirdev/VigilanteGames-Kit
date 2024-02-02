@@ -42,7 +42,7 @@ public class RunnerScript : MonoBehaviour
     public void Init()
     {
         ActionManager.SwerveValue += PlayerSwipe_OnSwerve;
-        ActionManager.UpdateManager += OnUpdate;
+        ActionManager.Updater += OnUpdate;
 
         pathCreator = FindObjectOfType<PathCreator>();
 
@@ -56,7 +56,7 @@ public class RunnerScript : MonoBehaviour
     public void DeInit()
     {
         ActionManager.SwerveValue -= PlayerSwipe_OnSwerve;
-        ActionManager.UpdateManager -= OnUpdate;
+        ActionManager.Updater -= OnUpdate;
         StartToRun(false);
     }
 

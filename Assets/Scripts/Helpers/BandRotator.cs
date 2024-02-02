@@ -12,12 +12,12 @@ public class BandRotator : MonoBehaviour
 
     public void Init()
     {
-        ActionManager.UpdateManager += OnUpdate;
+        ActionManager.Updater += OnUpdate;
     }
 
     public void DeInit()
     {
-        ActionManager.UpdateManager -= OnUpdate;
+        ActionManager.Updater -= OnUpdate;
     }
 
     private void OnUpdate(float deltaTime)

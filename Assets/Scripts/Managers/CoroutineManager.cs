@@ -2,41 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class CoroutineManager 
+public static class CoroutineManager
 {
-    private static readonly Dictionary<float, WaitForSeconds> waitForSecondsPool = new Dictionary<float, WaitForSeconds>();
+    private static readonly Dictionary<float, WaitForSecondsData> waitForSecondsPool = new Dictionary<float, WaitForSecondsData>();
+    private static readonly List<float> removalList = new List<float>();
+    private static float unassignedDisposeCoolDown = 30f;
 
-    public static WaitForSeconds GetTime(float seconds)
+    public static WaitForSeconds GetTime(float desiredTime, float desiredTimeDisposeCoolDown)
     {
-        if (waitForSecondsPool.TryGetValue(seconds, out WaitForSeconds waitForSeconds))
+        if (waitForSecondsPool.TryGetValue(desiredTime, out WaitForSecondsData waitForSeconds))
         {
-            return waitForSeconds;
+            waitForSecondsPool[desiredTime] =  new WaitForSecondsData(desiredTime, desiredTimeDisposeCoolDown);
+            return waitForSeconds.WaitForSeconds;
         }
         else
         {
-            var newWaitForSeconds = new WaitForSeconds(seconds);
-            waitForSecondsPool.Add(seconds, newWaitForSeconds);
-            Debug.Log($"WaitForSecondsPool Adding {seconds} Size {waitForSecondsPool.Count}");
-            return newWaitForSeconds;
+            var waitForSecondsData = new WaitForSecondsData(desiredTime, desiredTimeDisposeCoolDown);
+            waitForSecondsPool.Add(desiredTime, waitForSecondsData);
+            Debug.Log($"WaitForSecondsPool Adding {desiredTime} Size {waitForSecondsPool.Count}");
+            return waitForSecondsData.WaitForSeconds;
         }
     }
 
-    public static void AddTime(float[] secondDurations)
+    // Like the update method of mono behaviours
+    public static void Tick()
     {
-        foreach (var duration in secondDurations)
+        removalList.Clear();
+
+        foreach (var (desiredTime, waitForSecondsData) in waitForSecondsPool)
         {
-            var newWaitForSeconds = new WaitForSeconds(duration);
-            waitForSecondsPool.Add(duration, newWaitForSeconds);
+            if (waitForSecondsData.DesiredTimeDisposeCooldown <= Time.time)
+                removalList.Add(desiredTime);
         }
-    }
 
-    public static void RemoveTime(float seconds)
-    {
-        waitForSecondsPool.Remove(seconds);
+        foreach (var desiredTime in removalList)
+            waitForSecondsPool.Remove(desiredTime);
     }
+}
 
-    public static void Clear()
+public readonly struct WaitForSecondsData
+{
+    public readonly WaitForSeconds WaitForSeconds;
+    public readonly float DesiredTimeDisposeCooldown; // To remove this data from pool
+
+    public WaitForSecondsData(float desiredTime, float desiredTimeDisposeCooldown)
     {
-        waitForSecondsPool.Clear();
+        WaitForSeconds = new WaitForSeconds(desiredTime);
+        DesiredTimeDisposeCooldown = Time.time + desiredTimeDisposeCooldown;
     }
 }

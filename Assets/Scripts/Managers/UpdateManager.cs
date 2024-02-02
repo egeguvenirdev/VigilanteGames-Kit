@@ -18,6 +18,9 @@ public class UpdateManager : MonoBehaviour
 
     void Update()
     {
-        if (canUpdateGame) ActionManager.UpdateManager?.Invoke(Time.deltaTime);
+        if (!canUpdateGame) return;
+
+        ActionManager.UpdateManager?.Invoke(Time.deltaTime);
+        CoroutineManager.Tick();
     }
 }

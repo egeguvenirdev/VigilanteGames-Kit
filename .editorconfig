@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# CS0660: Tür operator == or operator != öğesini tanımlar, ancak Object.Equals(object o) öğesini geçersiz kılmaz
+dotnet_diagnostic.CS0660.severity = none
+
+# CS0661: Type operator == or operator != öğesini tanımlar, ancak Object.GetHashCode() öğesini geçersiz kılmaz
+dotnet_diagnostic.CS0661.severity = none

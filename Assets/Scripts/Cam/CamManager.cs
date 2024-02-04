@@ -37,6 +37,14 @@ public class CamManager : MonoBehaviour
         ActionManager.CamShake -= OnCamShake;
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            camShaker.ShakeCamera(shakeDuration, shakeAmplitude, shakeFrequency, shakeAmplitudeX, shakeAmplitudeY, shakeAmplitudeZ, unscaledTime);
+        }
+    }
+
     private void OnUpdate(float deltaTime)
     {
         if (player != null)

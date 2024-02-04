@@ -469,14 +469,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6685160132036620629, guid: dee08fe56ee80d448974ef2f5819c3f7, type: 3}
-      propertyPath: RotationActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6685160132036620629, guid: dee08fe56ee80d448974ef2f5819c3f7, type: 3}
-      propertyPath: RotationWiggleProperties.LimitedTimeTotal
-      value: 0.002
-      objectReference: {fileID: 0}
     - target: {fileID: 8628133915912742276, guid: dee08fe56ee80d448974ef2f5819c3f7, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -524,10 +516,6 @@ PrefabInstance:
     - target: {fileID: 8628133915912742278, guid: dee08fe56ee80d448974ef2f5819c3f7, type: 3}
       propertyPath: m_Name
       value: Cam Holder
-      objectReference: {fileID: 0}
-    - target: {fileID: 8628133915912742279, guid: dee08fe56ee80d448974ef2f5819c3f7, type: 3}
-      propertyPath: shakeFrequency
-      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dee08fe56ee80d448974ef2f5819c3f7, type: 3}

@@ -29,7 +29,7 @@ public class MoneyManager : MonoSingleton<MoneyManager>
         }
     }
 
-    public void Init(bool clearPlayerPrefs)
+    public void Init()
     {
         ActionManager.UpdateMoney += OnUpdataMoney;
         ActionManager.UpdateMoneyMultiplier += OnUpdataMoneyMultiplier;

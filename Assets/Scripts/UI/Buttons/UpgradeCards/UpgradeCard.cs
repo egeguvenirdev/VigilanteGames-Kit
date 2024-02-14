@@ -49,28 +49,27 @@ public abstract class UpgradeCard : ButtonBase
         ActionManager.GameStart -= ApplyUpgrades;
     }
 
-    public void OnPurchase()
-    {
-        SetButtonApperence();
-        SetButtonText();
-    }
-
     public override void OnButtonClick()
     {
         base.OnButtonClick();
 
-        vibrationManager.SoftVibration();
-
         playerManager.OnUpgrade(upgradeType, UpgradeCurrentValue);
         ActionManager.UpdateMoney?.Invoke(-CurrentPrice);
         SkillLevel = 1;
-
-        transform.DOKill(true);
-        transform.DOScale(Vector3.one, 0);
         button.enabled = false;
+
         SetButtons();
         uiManager.UpgradeButtons();
+
+        transform.DOKill(true);
+        transform.DOScale(Vector3.one, 0); 
         transform.DOPunchScale(Vector3.one * 0.3f, 0.5f, 6).SetUpdate(true);
+    }
+
+    public void OnPurchase()
+    {
+        SetButtonApperence();
+        SetButtonText();
     }
 
     public void SetButtons()

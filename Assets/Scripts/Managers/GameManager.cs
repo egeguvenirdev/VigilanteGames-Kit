@@ -36,7 +36,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         levelManager.Init();
         uIManager.Init();
-        moneyManager.Init(clearPlayerPrefs);
+        moneyManager.Init();
         updateManager.Init();
     }
 

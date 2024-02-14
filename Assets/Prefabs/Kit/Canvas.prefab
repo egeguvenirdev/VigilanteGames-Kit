@@ -226,7 +226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &20773865288126531
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2019,7 +2019,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3066104948791463859
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4761,9 +4761,7 @@ MonoBehaviour:
   - {fileID: 7737176802518898664}
   - {fileID: 657012160009686896}
   - {fileID: 116651706218006184}
-  InGameUis:
-  - {fileID: 20773865288126530}
-  - {fileID: 3066104948791463858}
+  InGameUis: []
   upgradePanel: {fileID: 3380426386670466637}
   currentLV: {fileID: 3066104948377910513}
   totalMoneyText: {fileID: 20773864705674967}

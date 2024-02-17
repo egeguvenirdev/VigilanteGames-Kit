@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ICollectable
 {
-    public void Collect(Vector3 target);
+    public void Collect(Transform target);
 }

@@ -4767,6 +4767,7 @@ MonoBehaviour:
   totalMoneyText: {fileID: 20773864705674967}
   timerText: {fileID: 1230992253484313722}
   progressBarImage: {fileID: 7785882747752488652}
+  moneyImage: {fileID: 20773865137907410}
 --- !u!223 &8286306661346076681
 Canvas:
   m_ObjectHideFlags: 0

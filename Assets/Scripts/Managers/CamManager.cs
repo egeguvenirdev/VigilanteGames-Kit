@@ -6,6 +6,9 @@ using MoreMountains.Feedbacks;
 
 public class CamManager : MonoBehaviour
 {
+    [Header("Camera Components")]
+    [SerializeField] private Camera ortograficCam;
+
     [Header("Cam Follow Settings")]
     [SerializeField] private Vector3 followOffset;
     [SerializeField] private float playerFollowSpeed = 0.125f;
@@ -27,6 +30,7 @@ public class CamManager : MonoBehaviour
     {
         ActionManager.Updater += OnUpdate;
         ActionManager.CamShake += OnCamShake;
+        ActionManager.GetOrtograficScreenToWorldPoint += OnGetOrtograficCam;
 
         player = FindObjectOfType<PlayerManager>().GetCharacterTransform;
     }
@@ -35,6 +39,7 @@ public class CamManager : MonoBehaviour
     {
         ActionManager.Updater -= OnUpdate;
         ActionManager.CamShake -= OnCamShake;
+        ActionManager.GetOrtograficScreenToWorldPoint -= OnGetOrtograficCam;
     }
 
     private void Update()
@@ -53,6 +58,11 @@ public class CamManager : MonoBehaviour
             targetPosition.x = Mathf.Clamp(targetPosition.x, -clampLocalX, clampLocalX);
             transform.position = Vector3.Lerp(transform.position, targetPosition, playerFollowSpeed * deltaTime);
         }
+    }
+
+    private Vector3 OnGetOrtograficCam(Vector3 targetPos)
+    {
+        return ortograficCam.ScreenToWorldPoint(targetPos);
     }
 
     private void OnCamShake()

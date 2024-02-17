@@ -12,7 +12,7 @@ public static class CoroutineManager
     {
         if (waitForSecondsPool.TryGetValue(desiredTime, out WaitForSecondsData waitForSeconds))
         {
-            waitForSecondsPool[desiredTime] =  new WaitForSecondsData(desiredTime, desiredTimeDisposeCoolDown);
+            //waitForSecondsPool[desiredTime] =  new WaitForSecondsData(desiredTime, desiredTimeDisposeCoolDown);
             return waitForSeconds.WaitForSeconds;
         }
         else

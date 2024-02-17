@@ -20,11 +20,16 @@ public class UIManager : MonoSingleton<UIManager>
 
     [Header("Health & Xp Bars")]
     [SerializeField] private Image progressBarImage;
+    [SerializeField] private Image moneyImage;
 
     private LevelManager levelManager;
-
-    private float smoothMoneyNumbers = 0;
     private Tweener smoothTween;
+    private float smoothMoneyNumbers = 0;
+
+    public Transform GetMoneyImageTranform
+    {
+        get => moneyImage.transform;
+    }
 
     public void Init()
     {

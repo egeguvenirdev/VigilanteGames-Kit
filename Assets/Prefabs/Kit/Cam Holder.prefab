@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8779bab598b21ce4eb67eaf1a1ca22b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ortograficCam: {fileID: 0}
   followOffset: {x: 0, y: 0, z: 0}
   playerFollowSpeed: 3
   clampLocalX: 1.5
@@ -458,7 +459,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 23
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

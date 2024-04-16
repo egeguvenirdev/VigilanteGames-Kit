@@ -17,6 +17,7 @@ public class GameManager : MonoSingleton<GameManager>
     private UIManager uIManager;
     private BandRotator bandRotator;
     private ObjectPooler pooler;
+    private AudioManager audioManager;
 
     void Start()
     {
@@ -28,6 +29,7 @@ public class GameManager : MonoSingleton<GameManager>
         pooler = ObjectPooler.Instance;
         updateManager = FindObjectOfType<UpdateManager>();
         camManager = FindObjectOfType<CamManager>();
+        audioManager = FindObjectOfType<AudioManager>();
 
         SetInits();
     }
@@ -38,6 +40,7 @@ public class GameManager : MonoSingleton<GameManager>
         uIManager.Init();
         moneyManager.Init();
         updateManager.Init();
+        audioManager.Init();
     }
 
     private void DeInits()
@@ -49,6 +52,7 @@ public class GameManager : MonoSingleton<GameManager>
         camManager.DeInit();
         bandRotator.DeInit();
         pooler.DeInit();
+        audioManager.DeInit();
     }
 
     public void OnStartTheGame()

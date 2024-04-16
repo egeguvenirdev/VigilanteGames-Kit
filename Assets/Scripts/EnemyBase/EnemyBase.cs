@@ -4,143 +4,128 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyBase : MonoBehaviour
+public abstract class EnemyBase : PoolableObjectBase, IDamageable
 {
     [Header("Properties")]
-    [SerializeField] protected int level = 1;
     [SerializeField] protected EnemyInfos enemyInfos;
-    [SerializeField] public EnemyType enemyType;
+    [SerializeField] protected Transform model;
+    [SerializeField] protected PoolObjectType[] dropTypes;
+    [SerializeField] protected AudioClip clip;
     //[SerializeField] [EnumFlags] private DropType dropType;
 
-    protected float maxHealth;
+    [Header("Stats")]
+    [SerializeField] private int level = 1;
+    private float maxHealth;
+    private float speed;
     protected float range;
-    protected float speed;
     protected float attackDamage;
-    protected float currentHealth;
+    protected float directionMultiplier = 1f;
+    private float currentHealth;
 
     [Header("Animation")]
-    [SerializeField] protected SimpleAnimancer _animancer;
-    [SerializeField] private AnimationClip[] dieClips;
-
+    [SerializeField] protected SimpleAnimancer animancer;
+    [SerializeField] protected AnimationClip idleAnim;
+    [SerializeField] protected AnimationClip runAnim;
     [SerializeField] protected NavMeshAgent agent;
-    [SerializeField] protected PlayerManager playerManager;
 
     protected bool canMove = true;
     protected bool isRunning = false;
-    protected bool isAlive = false;
 
-    public float setHealth
+    protected ObjectPooler pooler;
+    protected VibrationManager vibration;
+
+    private void Start()
     {
-        get => currentHealth;
-        set
-        {
-            value = Mathf.Clamp(value, 0, float.MaxValue);
-            currentHealth -= value;
-            if (currentHealth <= 0) Die();
-        }
+        pooler = ObjectPooler.Instance;
+        vibration = VibrationManager.Instance;
     }
 
-    protected void Initialized()
+    public override void Init()
     {
-        playerManager = FindObjectOfType<PlayerManager>();
-        //SetProperties(playerManager.PlayerLevel);
-
         ActionManager.AiUpdater += MoveTowardsPlayer;
         ActionManager.GameEnd += OnGameEnd;
 
-        ResHealth();
-        //
-    }
-
-    protected virtual void MoveTowardsPlayer(Vector3 player)
-    {
-
-    }
-
-    public virtual void TakeDamage(float hitAmount)
-    {
-        setHealth = hitAmount;
-        PlayDamageText(hitAmount);
-    }
-
-    public void Freeze(float time)
-    {
-        StartCoroutine(Frozen(time));
-    }
-
-    private IEnumerator Frozen(float time)
-    {
-        canMove = false;
-        agent.isStopped = true;
-        yield return new WaitForSeconds(time);
         agent.isStopped = false;
+        agent.updateRotation = false;
         canMove = true;
+        SetProperties();
     }
 
-    protected void PlayDamageText(float hitAmount)
-    {
-        if (hitAmount <= 0) return;
-    }
-
-    private void OnGameEnd(bool playerWin)
-    {
-        if (playerWin)
-        {
-            OnPlayerWin();
-            return;
-        }
-        OnPlayerLose();
-    }
-
-    private void OnPlayerWin()
-    {
-        if (isAlive)
-        {
-            _animancer.PlayAnimation("Die");
-            agent.isStopped = true;
-        }
-    }
-
-    private void OnPlayerLose()
-    {
-        if (isAlive)
-        {
-            _animancer.PlayAnimation("Idle");
-            agent.isStopped = true;
-        }
-    }
-
-    protected virtual void Die()
+    public void DeInit()
     {
         ActionManager.AiUpdater -= MoveTowardsPlayer;
         ActionManager.GameEnd -= OnGameEnd;
 
-        ResHealth();
-        isAlive = false;
-
-        //if (dropType == DropType.Nothing) return;
+        if (agent.navMeshOwner) agent.isStopped = true;
+        if (agent.navMeshOwner) canMove = false;
+        gameObject.SetActive(false);
     }
 
-    private void SetProperties(int playerLevel)
-    {
-        /*if (playerLevel > enemyInfos.GetCharacterPrefs.Length) playerLevel = enemyInfos.GetCharacterPrefs.Length;
+    protected abstract void MoveTowardsPlayer(Vector3 player);
 
-        EnemyInfos.CharacterPref currentLevel = enemyInfos.GetCharacterPrefs[playerLevel - 1];
+    protected abstract void CheckDirection();
+
+    private void OnGameEnd(bool playerWin)
+    {
+        StopAllCoroutines();
+        agent.isStopped = true;
+        canMove = false;
+        animancer.PlayAnimation(idleAnim);
+    }
+
+    private void SetProperties()
+    {
+        EnemyInfos.CharacterPref currentLevel = enemyInfos.GetCharacterPrefs[level - 1];
 
         maxHealth = currentLevel.maxHealth;
         speed = currentLevel.speed;
         range = currentLevel.range;
-        attackDamage = currentLevel.attackDamge;*/
+        attackDamage = currentLevel.attackDamge;
 
-
-        var enemyConfig = EnemyConfigUtility.GetEnemyConfigByLevel((byte)level);
-        maxHealth = enemyConfig.Health;
-        attackDamage = enemyConfig.Power;
+        agent.speed = speed;
     }
 
-    private void ResHealth()
+    public void TakeDamage(float damage)
     {
-        isAlive = true;
-        currentHealth = maxHealth;
+        damage = Mathf.Clamp(damage, 0, float.MaxValue);
+        currentHealth -= damage;
+
+        SlideText hitText = pooler.GetPooledText();
+        hitText.gameObject.SetActive(true);
+        hitText.SetTheText("", (int)damage, Color.red, transform.position);
+        vibration.SoftVibration();
+
+        var particle = pooler.GetPooledObjectWithType(PoolObjectType.BloodParticle);
+        particle.gameObject.SetActive(true);
+        particle.transform.position = transform.position;
+        particle.Init();
+
+        ActionManager.PlaySound?.Invoke(clip);
+        if (currentHealth <= 0)
+        {
+            var drop = pooler.GetPooledObjectWithType(dropTypes[Random.Range(0, dropTypes.Length)]);
+            drop.gameObject.SetActive(true);
+            drop.transform.position = transform.position;
+            drop.Init();
+            DeInit();
+        }
+    }
+
+    private void OnFear(float duration)
+    {
+        if (!gameObject.activeInHierarchy) return;
+        StopAllCoroutines();
+        StartCoroutine(FearCo(duration));
+    }
+
+    private IEnumerator FearCo(float duration)
+    {
+        canMove = false;
+        agent.isStopped = false;
+        directionMultiplier = -1;
+        isRunning = true;
+        yield return CoroutineManager.GetTime(duration, 30f);
+        directionMultiplier = 1;
+        canMove = true;
     }
 }

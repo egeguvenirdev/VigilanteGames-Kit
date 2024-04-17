@@ -42,13 +42,13 @@ public class CamManager : MonoBehaviour
         ActionManager.GetOrtograficScreenToWorldPoint -= OnGetOrtograficCam;
     }
 
-    private void Update()
+    /*private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             camShaker.ShakeCamera(shakeDuration, shakeAmplitude, shakeFrequency, shakeAmplitudeX, shakeAmplitudeY, shakeAmplitudeZ, unscaledTime);
         }
-    }
+    }*/
 
     private void OnUpdate(float deltaTime)
     {

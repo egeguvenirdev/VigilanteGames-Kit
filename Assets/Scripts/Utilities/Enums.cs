@@ -6,7 +6,9 @@ public enum UpgradeType
 {
     Income,
     FireRate,
-    FireRange
+    FireRange,
+    Health,
+    Money
 }
 
 public enum EnemyType

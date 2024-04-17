@@ -12,14 +12,15 @@ public static class ActionManager
     public static Action<float> Updater { get; set; }
     public static Action<Vector3> AiUpdater { get; set; }
     public static Action<AudioClip> PlaySound { get; set; }
+    public static Action<UpgradeType, float> GameplayUpgrade { get; set; }
 
     //MoneyActions
-    public static Action<float> UpdateMoney { get; set; }
     public static Action<float> UpdateMoneyMultiplier { get; set; }
     public static Predicate<float> CheckMoneyAmount { get; set; }
 
-    //Player Controls
+    //Player Actions
     public static Action<float> SwerveValue { get; set; }
+
 
     //Visual Effects
     public static Action CamShake { get; set; }

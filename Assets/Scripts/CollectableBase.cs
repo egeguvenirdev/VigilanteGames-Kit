@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class CollectableBase : MonoBehaviour, ICollectable
+public class CollectableBase : PoolableObjectBase, ICollectable
 {
+    [Header("Collect Settings")]
+    [SerializeField] protected AudioClip clip;
+    [SerializeField] protected UpgradeType upgradeType;
+    [SerializeField] protected float upgradeValue = 1;
+
+    [Header("Animation Settings")]
     [SerializeField] private Vector3 rotateVelocity;
     [SerializeField] private Space rotateSpace;
     [SerializeField] private float speed = 4f;
     [SerializeField] private float value = 100f;
+    [SerializeField] private bool rotate;
     [SerializeField] private Vector3 maxHeight = new Vector3(0f, 0.5f, 0f);
 
     private Vector3 minHeight;
@@ -18,10 +25,11 @@ public class CollectableBase : MonoBehaviour, ICollectable
     private UIManager uIManager;
     private Camera mainCam;
 
-    public virtual void Init(bool rotate)
+    public override void Init()
     {
         minHeight = transform.position;
         canRotate = rotate;
+        gameObject.SetLayerRecursively("Collectable");
 
         if (uIManager == null) uIManager = UIManager.Instance;
         if (mainCam == null) mainCam = Camera.main;
@@ -40,17 +48,30 @@ public class CollectableBase : MonoBehaviour, ICollectable
         }
     }
 
-    public virtual void Collect(Transform target)
+    public void Collect(Transform target, bool UIAnim)
     {
         canRotate = false;
-        Vector3 targetPos = target.position;
-        transform.DOJump(targetPos, 1f, 1, 0.5f).OnUpdate(() =>
+
+        if (target != null)
         {
-            targetPos = target.position;
-        }).OnComplete(() =>
-        {
-            MoveMoneyArea();
-        });
+            Vector3 targetPos = target.position;
+            transform.DOJump(targetPos, 1f, 1, 0.5f).OnUpdate(() =>
+            {
+                targetPos = target.position;
+            }).OnComplete(() =>
+            {
+                if (UIAnim)
+                {
+                    MoveMoneyArea();
+                    return;
+                }
+                ActionManager.GameplayUpgrade?.Invoke(upgradeType, upgradeValue);
+            });
+
+            return;
+        }
+
+        ActionManager.GameplayUpgrade?.Invoke(upgradeType, upgradeValue);
     }
 
     private void MoveMoneyArea()
@@ -70,7 +91,11 @@ public class CollectableBase : MonoBehaviour, ICollectable
 
         transform.DOPath(path, 1f, PathType.CatmullRom)
             .SetEase(Ease.Linear)
-            .SetId(GetHashCode());
+            .SetId(GetHashCode())
+            .OnComplete(() =>
+            {
+                ActionManager.GameplayUpgrade?.Invoke(upgradeType, upgradeValue);
+            });
 
         transform.DOScale(Vector3.zero, .2f)
             .SetDelay(1f)
@@ -78,4 +103,3 @@ public class CollectableBase : MonoBehaviour, ICollectable
             .SetId(GetHashCode());
     }
 }
-

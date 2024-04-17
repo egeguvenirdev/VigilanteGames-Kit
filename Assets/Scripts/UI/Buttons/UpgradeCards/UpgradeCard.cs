@@ -53,8 +53,9 @@ public abstract class UpgradeCard : ButtonBase
     {
         base.OnButtonClick();
 
-        playerManager.OnUpgrade(upgradeType, UpgradeCurrentValue);
-        ActionManager.UpdateMoney?.Invoke(-CurrentPrice);
+        //playerManager.OnUpgrade(upgradeType, UpgradeCurrentValue);
+        ActionManager.GameplayUpgrade?.Invoke(upgradeType, UpgradeCurrentValue);
+        ActionManager.GameplayUpgrade?.Invoke(UpgradeType.Money, -(float)CurrentPrice);
         SkillLevel = 1;
         button.enabled = false;
 
@@ -113,7 +114,7 @@ public abstract class UpgradeCard : ButtonBase
 
     protected void ApplyUpgrades()
     {
-        playerManager.OnUpgrade(upgradeType, UpgradeCurrentValue);
+        ActionManager.GameplayUpgrade?.Invoke(upgradeType, UpgradeCurrentValue);
     }
 
     protected int SkillLevel

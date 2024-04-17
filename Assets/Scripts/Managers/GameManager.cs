@@ -85,7 +85,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         playerManager.DeInit();
 
-        ActionManager.UpdateMoney(50f);
+        ActionManager.GameplayUpgrade(UpgradeType.Money, 50f);
         ActionManager.GameEnd?.Invoke(check);
 
     }

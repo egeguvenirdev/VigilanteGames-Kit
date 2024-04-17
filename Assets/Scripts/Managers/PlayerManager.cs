@@ -11,7 +11,6 @@ public class PlayerManager : MonoBehaviour
 
     private GameManager gameManager;
     private MoneyManager moneyManager;
-
     Sequence sequence;
 
     public Transform GetCharacterTransform
@@ -23,11 +22,13 @@ public class PlayerManager : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         moneyManager = MoneyManager.Instance;
+        ActionManager.GameplayUpgrade += OnUpgrade;
         runnerScript.Init();
     }
 
     public void DeInit()
     {
+        ActionManager.GameplayUpgrade -= OnUpgrade;
         runnerScript.DeInit();
     }
 

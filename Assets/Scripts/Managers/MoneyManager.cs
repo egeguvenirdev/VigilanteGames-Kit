@@ -31,8 +31,8 @@ public class MoneyManager : MonoSingleton<MoneyManager>
 
     public void Init()
     {
-        ActionManager.UpdateMoney += OnUpdataMoney;
-        ActionManager.UpdateMoneyMultiplier += OnUpdataMoneyMultiplier;
+        ActionManager.GameplayUpgrade += OnUpdateMoney;
+        ActionManager.UpdateMoneyMultiplier += OnUpdateMoneyMultiplier;
         ActionManager.CheckMoneyAmount += OnCheckMoneyAmount;
 
         if (addMoney > 0)
@@ -46,17 +46,19 @@ public class MoneyManager : MonoSingleton<MoneyManager>
 
     public void DeInit()
     {
-        ActionManager.UpdateMoney -= OnUpdataMoney;
-        ActionManager.UpdateMoneyMultiplier -= OnUpdataMoneyMultiplier;
+        ActionManager.GameplayUpgrade -= OnUpdateMoney;
+        ActionManager.UpdateMoneyMultiplier -= OnUpdateMoneyMultiplier;
         ActionManager.CheckMoneyAmount -= OnCheckMoneyAmount;
     }
 
-    private void OnUpdataMoney(float value)
+    private void OnUpdateMoney(UpgradeType upgradeType, float value)
     {
+        if (upgradeType != UpgradeType.Money) return;
+
         Money = value;
     }
 
-    private void OnUpdataMoneyMultiplier(float value)
+    private void OnUpdateMoneyMultiplier(float value)
     {
         MoneyMultipler = value;
     }

@@ -214,10 +214,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bd45e218d28fc34ea4952fbc68759fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectType: 0
+  clip: {fileID: 0}
+  upgradeType: 0
+  upgradeValue: 1
   rotateVelocity: {x: 0, y: 0, z: 0}
   rotateSpace: 0
   speed: 4
   value: 100
+  rotate: 0
   maxHeight: {x: 0, y: 0.35, z: 0}
 --- !u!4 &94111378
 Transform:

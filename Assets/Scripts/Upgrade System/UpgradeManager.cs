@@ -1,38 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
-public class PlayerManager : MonoBehaviour
+public class UpgradeManager : MonoBehaviour
 {
-    [Header("Components")]
-    [SerializeField] private RunnerScript runnerScript;
-    [SerializeField] private Transform characterTransform;
-
-    private GameManager gameManager;
-    private MoneyManager moneyManager;
-    Sequence sequence;
-
-    public Transform GetCharacterTransform
-    {
-        get => characterTransform;
-    }
-
     public void Init()
     {
-        gameManager = GameManager.Instance;
-        moneyManager = MoneyManager.Instance;
         ActionManager.GameplayUpgrade += OnUpgrade;
-        runnerScript.Init();
     }
 
     public void DeInit()
     {
         ActionManager.GameplayUpgrade -= OnUpgrade;
-        runnerScript.DeInit();
     }
 
-    #region Upgrade
     public void OnUpgrade(UpgradeType type, float value)
     {
         switch (type)
@@ -71,6 +52,4 @@ public class PlayerManager : MonoBehaviour
     {
 
     }
-
-    #endregion
 }

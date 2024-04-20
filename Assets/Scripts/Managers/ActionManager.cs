@@ -12,7 +12,6 @@ public static class ActionManager
     public static Action<float> Updater { get; set; }
     public static Action<Vector3> AiUpdater { get; set; }
     public static Action<AudioClip> PlaySound { get; set; }
-    public static Action<UpgradeType, float> GameplayUpgrade { get; set; }
 
     //MoneyActions
     public static Action<float> UpdateMoneyMultiplier { get; set; }
@@ -20,7 +19,8 @@ public static class ActionManager
 
     //Player Actions
     public static Action<float> SwerveValue { get; set; }
-
+    public static Action<UpgradeType, float> GameplayUpgrade { get; set; }
+    public static Func<UpgradeType> GetUpgradeValue { get; set; }
 
     //Visual Effects
     public static Action CamShake { get; set; }

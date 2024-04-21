@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using PathCreation;
 using DG.Tweening;
@@ -9,7 +8,6 @@ public class RunnerScript : MonoBehaviour
     [Header("Scripts and Transforms")]
     [SerializeField] private Transform model;
     [SerializeField] private Transform localMoverTarget;
-    [SerializeField] private PathCreator pathCreator;
     [SerializeField] private SimpleAnimancer animancer;
     [SerializeField] private PlayerSwerve playerSwerve;
 
@@ -24,15 +22,17 @@ public class RunnerScript : MonoBehaviour
     [SerializeField] private float characterSwipeLerpSpeed = 2f;
     [SerializeField] private float characterRotateLerpSpeed = 2f;
     [SerializeField] private bool canFollow = true;
+    [SerializeField] private bool canLookAt = true;
 
     [Header("Animations")]
     [SerializeField] private AnimationClip runAnim;
+    [SerializeField] private AnimationClip idleRunAnim;
+    [SerializeField] private AnimationClip idleAnim;
     private AnimationClip currentAnim;
 
     private Vector3 oldPosition;
     private bool canRun = false;
     private bool canSwerve = false;
-    private bool canLookAt = true;
 
     public float RunSpeed
     {
@@ -44,12 +44,11 @@ public class RunnerScript : MonoBehaviour
         ActionManager.SwerveValue += PlayerSwipe_OnSwerve;
         ActionManager.Updater += OnUpdate;
 
-        pathCreator = FindObjectOfType<PathCreator>();
-
         distance = startDistance;
-        //oldPosition = localMoverTarget.localPosition;
 
+        //oldPosition = localMoverTarget.localPosition;
         //PlayAnimation(runAnim);
+
         StartToRun(true);
     }
 
@@ -109,13 +108,13 @@ public class RunnerScript : MonoBehaviour
 
 
         //follower character
-        if (canFollow)
+        if (canLookAt)
         {
             Vector3 direction = localMoverTarget.localPosition - oldPosition;
             model.transform.forward = Vector3.Lerp(model.transform.forward, direction, characterRotateLerpSpeed * deltaTime);
         }
 
-        if (canLookAt)
+        if (canFollow)
         {
             //swipe the object
             Vector3 nextPos = new Vector3(localMoverTarget.localPosition.x, model.localPosition.y, localMoverTarget.localPosition.z); ;

@@ -9,6 +9,7 @@ public class UpgradeManager : MonoBehaviour
     public void Init()
     {
         ActionManager.GameplayUpgrade += OnUpgrade;
+        ActionManager.GamePlayUpgradeValue += OnGamePlayUpgradeValue;
 
         for (int i = 0; i < upgrades.Length; i++)
         {
@@ -19,6 +20,7 @@ public class UpgradeManager : MonoBehaviour
     public void DeInit()
     {
         ActionManager.GameplayUpgrade -= OnUpgrade;
+        ActionManager.GamePlayUpgradeValue -= OnGamePlayUpgradeValue;
 
         for (int i = 0; i < upgrades.Length; i++)
         {
@@ -26,7 +28,7 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
-    public void OnUpgrade(UpgradeType type, float value)
+    private void OnUpgrade(UpgradeType type, float value)
     {
         for (int i = 0; i < upgrades.Length; i++)
         {
@@ -35,5 +37,14 @@ public class UpgradeManager : MonoBehaviour
                 upgrades[i].OnUpgrade(value);
             }
         }
+    }
+
+    private float OnGamePlayUpgradeValue(UpgradeType upgradeType)
+    {
+        for (int i = 0; i < upgrades.Length; i++)
+        {
+            if (upgrades[i].UpgradeType == upgradeType) return upgrades[i].GetCurrentValue();
+        }
+        return 0;
     }
 }

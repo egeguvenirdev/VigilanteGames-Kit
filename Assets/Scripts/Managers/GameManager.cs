@@ -18,6 +18,7 @@ public class GameManager : MonoSingleton<GameManager>
     private BandRotator bandRotator;
     private ObjectPooler pooler;
     private AudioManager audioManager;
+    private UpgradeManager upgradeManager;
 
     void Start()
     {
@@ -30,6 +31,7 @@ public class GameManager : MonoSingleton<GameManager>
         updateManager = FindObjectOfType<UpdateManager>();
         camManager = FindObjectOfType<CamManager>();
         audioManager = FindObjectOfType<AudioManager>();
+        upgradeManager = FindObjectOfType<UpgradeManager>();
 
         SetInits();
     }
@@ -41,6 +43,7 @@ public class GameManager : MonoSingleton<GameManager>
         moneyManager.Init();
         updateManager.Init();
         audioManager.Init();
+        upgradeManager.Init();
     }
 
     private void DeInits()
@@ -53,6 +56,7 @@ public class GameManager : MonoSingleton<GameManager>
         bandRotator.DeInit();
         pooler.DeInit();
         audioManager.DeInit();
+        upgradeManager.DeInit();
     }
 
     public void OnStartTheGame()
@@ -87,6 +91,5 @@ public class GameManager : MonoSingleton<GameManager>
 
         ActionManager.GameplayUpgrade(UpgradeType.Money, 50f);
         ActionManager.GameEnd?.Invoke(check);
-
     }
 }

@@ -4,52 +4,36 @@ using UnityEngine;
 
 public class UpgradeManager : MonoBehaviour
 {
+    [SerializeField] private UpgradeBase[] upgrades;
+
     public void Init()
     {
         ActionManager.GameplayUpgrade += OnUpgrade;
+
+        for (int i = 0; i < upgrades.Length; i++)
+        {
+            upgrades[i].Init();
+        }
     }
 
     public void DeInit()
     {
         ActionManager.GameplayUpgrade -= OnUpgrade;
+
+        for (int i = 0; i < upgrades.Length; i++)
+        {
+            upgrades[i].DeInit();
+        }
     }
 
     public void OnUpgrade(UpgradeType type, float value)
     {
-        switch (type)
+        for (int i = 0; i < upgrades.Length; i++)
         {
-            case UpgradeType.Income:
-                IncomeUpgrade(value);
-                break;
-            case UpgradeType.FireRange:
-                FireRangeUpgrade(value);
-                break;
-            case UpgradeType.FireRate:
-                FireRateUpgrade(value);
-                break;
-            default:
-                Debug.Log("NOTHING");
-                break;
+            if (upgrades[i].UpgradeType == type)
+            {
+                upgrades[i].OnUpgrade(value);
+            }
         }
-    }
-
-    private void IncomeUpgrade(float value)
-    {
-        if (value < 1)
-        {
-            ActionManager.UpdateMoneyMultiplier?.Invoke(1);
-            return;
-        }
-        ActionManager.UpdateMoneyMultiplier?.Invoke(value);
-    }
-
-    private void FireRangeUpgrade(float value)
-    {
-
-    }
-
-    private void FireRateUpgrade(float value)
-    {
-
     }
 }

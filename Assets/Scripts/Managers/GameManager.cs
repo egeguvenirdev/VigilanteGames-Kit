@@ -48,6 +48,8 @@ public class GameManager : MonoSingleton<GameManager>
         playerManager.Init();
 
         upgradeManager.Init();
+
+        if (clearPlayerPrefs) ActionManager.ClearGameplayValues?.Invoke();
     }
 
     private void DeInits()

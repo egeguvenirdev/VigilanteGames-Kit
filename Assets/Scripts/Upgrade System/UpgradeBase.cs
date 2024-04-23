@@ -12,12 +12,13 @@ public class UpgradeBase : MonoBehaviour
 
     public void Init()
     {
-        ActionManager.DistributePlayUpgradeValue?.Invoke(upgradeType, upgradeInfos.GetUpgradeInfos.CurrentValue);
+        ActionManager.DistributeGameplayUpgradeValue?.Invoke(upgradeType, upgradeInfos.GetUpgradeInfos.CurrentValue);
+        ActionManager.ClearGameplayValues += OnClearValue;
     }
 
     public void DeInit()
     {
-
+        ActionManager.ClearGameplayValues -= OnClearValue;
     }
 
     public virtual void OnUpgrade(UpgradeType upgradeType, float upgradeValue)
@@ -25,7 +26,13 @@ public class UpgradeBase : MonoBehaviour
         if (this.upgradeType == upgradeType)
         {
             upgradeInfos.GetUpgradeInfos.CurrentValue = upgradeValue;
-            ActionManager.DistributePlayUpgradeValue?.Invoke(this.upgradeType, upgradeInfos.GetUpgradeInfos.CurrentValue);
+            ActionManager.DistributeGameplayUpgradeValue?.Invoke(this.upgradeType, upgradeInfos.GetUpgradeInfos.CurrentValue);
         }
+    }
+
+    private void OnClearValue()
+    {
+        upgradeInfos.GetUpgradeInfos.ClearCurrentValue();
+        ActionManager.DistributeGameplayUpgradeValue?.Invoke(this.upgradeType, upgradeInfos.GetUpgradeInfos.CurrentValue);
     }
 }

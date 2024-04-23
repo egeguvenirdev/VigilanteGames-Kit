@@ -19,7 +19,8 @@ public static class ActionManager
     //Player Actions
     public static Action<float> SwerveValue { get; set; }
     public static Action<UpgradeType, float> GatherGameplayUpgrade { get; set; }
-    public static Action<UpgradeType, float> DistributePlayUpgradeValue { get; set; }
+    public static Action<UpgradeType, float> DistributeGameplayUpgradeValue { get; set; }
+    public static Action ClearGameplayValues { get; set; }
 
     //Visual Effects
     public static Action CamShake { get; set; }

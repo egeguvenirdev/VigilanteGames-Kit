@@ -43,6 +43,10 @@ public class GameManager : MonoSingleton<GameManager>
         moneyManager.Init();
         updateManager.Init();
         audioManager.Init();
+
+        playerManager = FindObjectOfType<PlayerManager>();
+        playerManager.Init();
+
         upgradeManager.Init();
     }
 
@@ -63,8 +67,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         ActionManager.GameStart?.Invoke();
 
-        playerManager = FindObjectOfType<PlayerManager>();
-        playerManager.Init();
+        playerManager.OnGameStart();
 
         camManager.Init();
 
@@ -91,5 +94,6 @@ public class GameManager : MonoSingleton<GameManager>
 
         ActionManager.GatherGameplayUpgrade(UpgradeType.Money, 50f);
         ActionManager.GameEnd?.Invoke(check);
+
     }
 }

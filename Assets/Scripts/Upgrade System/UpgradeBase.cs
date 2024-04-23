@@ -20,11 +20,6 @@ public class UpgradeBase : MonoBehaviour
 
     }
 
-    public float GetCurrentValue()
-    {
-        return upgradeInfos.GetUpgradeInfos.CurrentValue;
-    }
-
     public virtual void OnUpgrade(UpgradeType upgradeType, float upgradeValue)
     {
         if (this.upgradeType == upgradeType)

@@ -22,7 +22,10 @@ public class PlayerManager : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         moneyManager = MoneyManager.Instance;
+    }
 
+    public void OnGameStart()
+    {
         runnerScript.Init();
     }
 

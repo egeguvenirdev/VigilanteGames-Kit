@@ -12,7 +12,7 @@ public class UpgradeBase : MonoBehaviour
 
     public void Init()
     {
-
+        ActionManager.DistributePlayUpgradeValue?.Invoke(upgradeType, upgradeInfos.GetUpgradeInfos.CurrentValue);
     }
 
     public void DeInit()
@@ -25,8 +25,12 @@ public class UpgradeBase : MonoBehaviour
         return upgradeInfos.GetUpgradeInfos.CurrentValue;
     }
 
-    public virtual void OnUpgrade(float upgradeValue)
+    public virtual void OnUpgrade(UpgradeType upgradeType, float upgradeValue)
     {
-        upgradeInfos.GetUpgradeInfos.CurrentValue = upgradeValue;
+        if (this.upgradeType == upgradeType)
+        {
+            upgradeInfos.GetUpgradeInfos.CurrentValue = upgradeValue;
+            ActionManager.DistributePlayUpgradeValue?.Invoke(this.upgradeType, upgradeInfos.GetUpgradeInfos.CurrentValue);
+        }
     }
 }

@@ -5500,6 +5500,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Income Card
       objectReference: {fileID: 0}
+    - target: {fileID: 3767678911935233509, guid: 92f5eea6cd9af384dabc2cb9aa1c1994, type: 3}
+      propertyPath: upgradeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3767678911935233509, guid: 92f5eea6cd9af384dabc2cb9aa1c1994, type: 3}
+      propertyPath: upgradeValue
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92f5eea6cd9af384dabc2cb9aa1c1994, type: 3}
 --- !u!224 &6769465620600936111 stripped
